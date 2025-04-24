@@ -35,6 +35,7 @@ public class UserConsoleApp {
         }
     }
 
+
     private static void createUser() {
         System.out.print("Имя: ");
         String name = scanner.nextLine();
