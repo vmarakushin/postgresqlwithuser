@@ -1,0 +1,1 @@
+docker exec -it pg-container psql -U admin -d userdatabase
