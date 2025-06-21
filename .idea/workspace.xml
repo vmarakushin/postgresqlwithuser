@@ -4,7 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="Initial Commit" />
+    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="Fixed IP to connect PostGRE">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Age.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Email.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Name.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Phone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Surname.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/HibernateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserConsoleApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserDAOInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserIdService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/mypackage/HibernateTest.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +37,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -51,6 +75,8 @@
     &quot;Application.mypackage.Main.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.mypackage.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.postgresqlwithuser.Main.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MockitoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MockitoTest.testGetUserById.executor&quot;: &quot;Run&quot;,
     &quot;Maven.postgresqlwithuser [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.postgresqlwithuser [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.postgresqlwithuser [install].executor&quot;: &quot;Run&quot;,
@@ -63,8 +89,9 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/VLADLEN/IdeaProjects/MyOwnSupaPupaHashMap&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/VLADLEN/IdeaProjects/postgresqlwithuser&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -73,14 +100,14 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\VLADLEN\IdeaProjects\postgresqlwithuser\src\main\java" />
       <recent name="C:\Users\VLADLEN\IdeaProjects\postgresqlwithuser\src" />
+      <recent name="C:\Users\VLADLEN\IdeaProjects\postgresqlwithuser\src\main\java" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="mypackage" />
@@ -93,7 +120,7 @@
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="mypackage.*" />
+          <option name="PATTERN" value="com.example.userservice.app.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -106,7 +133,7 @@
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="mypackage.*" />
+          <option name="PATTERN" value="com.example.userservice.app.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -115,11 +142,11 @@
       </method>
     </configuration>
     <configuration name="UserConsoleApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="mypackage.UserConsoleApp" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.app.UserConsoleApp" />
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="mypackage.*" />
+          <option name="PATTERN" value="com.example.userservice.app.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -127,9 +154,42 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MockitoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgresqlwithuser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.userservice.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="mypackage" />
+      <option name="MAIN_CLASS_NAME" value="mypackage.MockitoTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MockitoTest.testGetUserById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgresqlwithuser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.userservice.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="mypackage" />
+      <option name="MAIN_CLASS_NAME" value="mypackage.MockitoTest" />
+      <option name="METHOD_NAME" value="testGetUserById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.UserConsoleApp" />
+        <item itemvalue="JUnit.MockitoTest.testGetUserById" />
+        <item itemvalue="JUnit.MockitoTest" />
         <item itemvalue="Application.HibernateTest" />
       </list>
     </recent_temporary>
@@ -161,7 +221,19 @@
       <workItem from="1745452518755" duration="1501000" />
       <workItem from="1745454089382" duration="1582000" />
       <workItem from="1745456196306" duration="413000" />
-      <workItem from="1745509023272" duration="374000" />
+      <workItem from="1745509023272" duration="1505000" />
+      <workItem from="1746050246737" duration="114000" />
+      <workItem from="1746050366477" duration="334000" />
+      <workItem from="1746081473044" duration="5739000" />
+      <workItem from="1746087282589" duration="5432000" />
+      <workItem from="1746112785996" duration="1532000" />
+      <workItem from="1746116687715" duration="1780000" />
+      <workItem from="1746118728535" duration="4398000" />
+      <workItem from="1746175503971" duration="48000" />
+      <workItem from="1746355740837" duration="1004000" />
+      <workItem from="1746444734992" duration="58000" />
+      <workItem from="1749811065194" duration="628000" />
+      <workItem from="1750507901839" duration="21452000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -179,7 +251,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745509368531</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Initial Commit">
+      <option name="closed" value="true" />
+      <created>1745509729908</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745509729908</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed IP to connect PostGRE">
+      <option name="closed" value="true" />
+      <created>1745509762680</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745509762680</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,7 +286,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
+    <MESSAGE value="Fixed IP to connect PostGRE" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed IP to connect PostGRE" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/postgresqlwithuser$mypackage_Main.ic" NAME="mypackage.Main Coverage Results" MODIFIED="1745420014884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

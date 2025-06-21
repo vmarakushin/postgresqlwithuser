@@ -1,78 +1,68 @@
-package mypackage;
+package com.example.userservice.model;
+import com.example.userservice.vo.*;
 
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Класс {@code User} представляет собой сущность пользователя.
  * Основные данные: ID, имя, фамилия, возраст, номер телефона, email, время создания и баланс.
- * <p>
+ *
  * Содержит в себе геттеры для всех полей
- * и сеттеры для: name, surname, age, phone, email
+ * и сеттеры для: name, surname, age, phone, email, поддерживают fluent
  * а также методы для работы с балансом.
- * </p>
+ *
  * @author vmarakushin
- * @version 1.0
+ * @version 1.1
  */
-@Entity
+@Entity(name = "User")
 @Table(name = "users")
 public class User {
 
     /** ID */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     /** Имя */
-    private String name;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "name"))
+    private Name name;
     /** Фамилия */
-    private String surname;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "surname"))
+    private Surname surname;
     /** Возраст */
-    private int age;
+    @Embedded
+    private Age age;
     /** Номер телефона */
-    private String phone;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "phone"))
+    private Phone phone;
     /** Адрес электронки */
-    private String email;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "email"))
+    private Email email;
     /** Баланс */
     private long money;
     /** Время создания */
+    @Column(updatable = false)
     private final Date createdAt;
 
 
-    /**
-     * Конструктор для создания нового пользователя.
-     * Баланс по умолчанию 0.
-     * ID выдается {@link UserIdService}
-     * created_at записывает дату при создании экземпляра.
-     * @param name Имя пользователя.
-     * @param surname Фамилия пользователя.
-     * @param phone Номер телефона пользователя.
-     * @param email Адрес электронной почты пользователя.
-     */
-    public User(String name, String surname, int age, String phone, String email) {
-        this.id = UserIdService.getId();
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.phone = phone;
-        this.email = email;
-        this.money = 0;
-        this.createdAt = new Date();
-        System.out.println("Создан пользователь:");
-        this.show();
-    }
-    public User() {
-        this.createdAt = null;
-    }
 
+    public User() {
+        this.createdAt = new Date();
+    }
 
     /**
      * Устанавливает имя пользователя.
      * @param name имя пользователя.
      */
-    public void setName(String name){
+    public User setName(Name name){
         this.name = name;
+        return this;
     }
 
 
@@ -80,7 +70,7 @@ public class User {
      * Возвращает имя пользователя.
      * @return имя пользователя.
      */
-    public String getName(){
+    public Name getName(){
         return name;
     }
 
@@ -89,8 +79,9 @@ public class User {
      * Устанавливает фамилию пользователя.
      * @param surname фамилия пользователя.
      */
-    public void setSurname(String surname){
+    public User setSurname(Surname surname){
         this.surname = surname;
+        return this;
     }
 
 
@@ -98,7 +89,7 @@ public class User {
      * Возвращает фамилию пользователя.
      * @return фамилия пользователя.
      */
-    public String getSurname(){
+    public Surname getSurname(){
         return surname;
     }
 
@@ -107,8 +98,9 @@ public class User {
      * Устанавливает телефон пользователя.
      * @param phone телефон пользователя.
      */
-    public void setPhone(String phone){
+    public User setPhone(Phone phone){
         this.phone = phone;
+        return this;
     }
 
 
@@ -116,7 +108,7 @@ public class User {
      * Возвращает телефон пользователя.
      * @return телефон пользователя.
      */
-    public String getPhone(){
+    public Phone getPhone(){
         return phone;
     }
 
@@ -125,8 +117,9 @@ public class User {
      * Устанавливает электронную почту пользователя.
      * @param email электронная почта пользователя.
      */
-    public void setEmail(String email){
+    public User setEmail(Email email){
         this.email = email;
+        return this;
     }
 
 
@@ -134,7 +127,7 @@ public class User {
      * Возвращает электронную почту пользователя.
      * @return электронная почта пользователя.
      */
-    public String getEmail(){
+    public Email getEmail(){
         return email;
     }
 
@@ -176,15 +169,16 @@ public class User {
      */
     public int getId(){
         return id;
-    };
+    }
 
 
     /**
      * Устанавливает возраст пользователя
      * @param age возраст пользователя
      */
-    public void setAge(int age){
+    public User setAge(Age age){
         this.age = age;
+        return this;
     }
 
 
@@ -192,7 +186,7 @@ public class User {
      * Возвращает возраст пользователя
      * @return возраст пользователя
      */
-    public int getAge(){
+    public Age getAge(){
         return age;
     }
 
@@ -206,18 +200,21 @@ public class User {
     }
 
 
-    /**
-     * Метод для отображения пользователя
-     */
-    public void show() {
-        System.out.println("Id: " + id);
-        System.out.println("Имя: " + name);
-        System.out.println("Фамилия: " + surname);
-        System.out.println("Возраст: " + age);
-        System.out.println("Телефон: " + phone);
-        System.out.println("Email: " + email);
-        System.out.println("Баланс: " + money);
-        System.out.println("Создан: " + createdAt.toString());
+
+    public String toString() {
+        return (    "Id: " + getId()
+                + "\nИмя: " + getName()
+                + "\nФамилия: " + getSurname()
+                + "\nВозраст: " + getAge()
+                + "\nТелефон: " + getPhone()
+                + "\nEmail: " + getEmail()
+                + "\nБаланс: " + getMoney()
+                + "\nСоздан: " + getCreatedAt()
+        );
+    }
+
+    public void show(){
+        System.out.println(this);
     }
 }
 
