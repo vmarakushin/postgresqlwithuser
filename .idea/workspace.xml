@@ -4,29 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="Fixed IP to connect PostGRE">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Age.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Email.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Name.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Phone.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Surname.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="Реструктуризация проекта&#10;Поддержка Fluent в сеттерах User&#10;Хранение данных в value object с авто-валидацией&#10;DRY: Отдельный сервис для работы с транзакциями;&#10;Повторяющиеся элементы кода в UserConsoleApp вынесены в отдельные методы.">
+      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/DaoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/Validator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/HibernateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserConsoleApp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserDAOInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mypackage/UserIdService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/mypackage/HibernateTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Age.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Name.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Phone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/StringVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/vo/Surname.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +31,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -233,7 +228,11 @@
       <workItem from="1746355740837" duration="1004000" />
       <workItem from="1746444734992" duration="58000" />
       <workItem from="1749811065194" duration="628000" />
-      <workItem from="1750507901839" duration="21452000" />
+      <workItem from="1750507901839" duration="23194000" />
+      <workItem from="1750538073636" duration="494000" />
+      <workItem from="1750593801450" duration="37000" />
+      <workItem from="1750944574849" duration="10316000" />
+      <workItem from="1750961720416" duration="8516000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -267,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745509762680</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Реструктуризация проекта&#10;Поддержка Fluent в сеттерах User&#10;Хранение данных в value object с авто-валидацией&#10;DRY: Отдельный сервис для работы с транзакциями;&#10;Повторяющиеся элементы кода в UserConsoleApp вынесены в отдельные методы.">
+      <option name="closed" value="true" />
+      <created>1750530867454</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1750530867454</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,7 +294,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Fixed IP to connect PostGRE" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed IP to connect PostGRE" />
+    <MESSAGE value="Реструктуризация проекта&#10;Поддержка Fluent в сеттерах User&#10;Хранение данных в value object с авто-валидацией&#10;DRY: Отдельный сервис для работы с транзакциями;&#10;Повторяющиеся элементы кода в UserConsoleApp вынесены в отдельные методы." />
+    <option name="LAST_COMMIT_MESSAGE" value="Реструктуризация проекта&#10;Поддержка Fluent в сеттерах User&#10;Хранение данных в value object с авто-валидацией&#10;DRY: Отдельный сервис для работы с транзакциями;&#10;Повторяющиеся элементы кода в UserConsoleApp вынесены в отдельные методы." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

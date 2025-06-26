@@ -1,14 +1,13 @@
 package com.example.userservice.app;
 
-
+import com.example.userservice.exception.DaoException;
 import com.example.userservice.model.User;
 import com.example.userservice.dao.UserDAO;
-import com.example.userservice.vo.*;
+import com.example.userservice.service.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
@@ -20,13 +19,12 @@ import java.util.Scanner;
  * Обновления пользователя
  * Удаления пользователя
  * Использует {@link UserDAO}
+ *
  * @author vmarakushin
- * @version 2.0
+ * @version 2.1
  */
 public class UserConsoleApp {
-    public static final Logger logger = LoggerFactory.getLogger(UserConsoleApp.class);
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final UserDAO userDAO = new UserDAO();
+    private static final Logger logger = LoggerFactory.getLogger(UserConsoleApp.class);
 
 
     /**
@@ -45,7 +43,7 @@ public class UserConsoleApp {
             System.out.println("0. Выход");
 
 
-            int choice = readValidInt("Выбор: ");
+            int choice = Validator.validInt("Выбор: ");
             switch (choice) {
                 case 1 -> createUser();
                 case 2 -> showAllUsers();
@@ -64,46 +62,63 @@ public class UserConsoleApp {
 
     /**
      * Создает нового пользователя на основании введенных данных
-     *
-     *
      */
     private static void createUser() {
 
         User user = new User()
-                .setName(readValidInput("Введите имя: ", Name::new))
-                .setSurname(readValidInput("Введите фамилию: ", Surname::new))
-                .setAge(readValidIntInput("Введите возраст: ", Age::new))
-                .setPhone(readValidInput("Введите телефон: ", Phone::new))
-                .setEmail(readValidInput("Введите Email: ", Email::new));
+                .name(Validator.validStringCreate("Введите имя: ", Validator::name))
+                .surname(Validator.validStringCreate("Введите фамилию: ", Validator::surname))
+                .age(Validator.validIntCreate("Введите возраст: ", Validator::age))
+                .phone(Validator.validStringCreate("Введите телефон: ", Validator::phone))
+                .email(Validator.validStringCreate("Введите Email: ", Validator::email));
 
-        userDAO.saveUser(user);
+        user.show();
 
-        logger.info("✅ Пользователь создан!");
+        try {
+            UserDAO.saveUser(user);
+        }catch (DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
+            return;
+        }
+        System.out.println("Пользователь создан!");
     }
 
     /**
      * Вывод информации обо всех пользователях
      */
     private static void showAllUsers() {
-        List<User> users = userDAO.getAllUsers();
-        if (users.isEmpty()) {
-            logger.info("Нет пользователей.");
-        } else {
-            users.forEach(User::show);
+        List<User> users;
+        try {
+            users = UserDAO.getAllUsers();
+        }catch (DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
+            return;
         }
+        if (users.isEmpty()) {
+            System.out.println("Нет пользователей.");
+        } else {
+                users.forEach(User::show);
+        }
+
     }
 
     /**
      * Вывод информации о пользователе по ID
      */
     private static void findUserById() {
-        int id = readValidInt("ID пользователя: ");
-        User user = userDAO.getUserById(id);
+        int id = Validator.validInt("ID пользователя: ");
+        User user = null;
+        try {
+            user = UserDAO.getUserById(id);
+        }catch (DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
+        }
         if (user != null) {
             user.show();
         } else {
-            logger.info("Пользователь не найден.");
+            System.out.println("Пользователь не найден.");
         }
+
     }
 
     /**
@@ -111,12 +126,18 @@ public class UserConsoleApp {
      */
     private static void updateUser() {
 
-        int id = readValidInt("ID пользователя для обновления: ");
+        int id = Validator.validInt("ID пользователя для обновления: ");
 
-        User user = userDAO.getUserById(id);
+        User user;
+        try {
+            user = UserDAO.getUserById(id);
 
+        }catch(DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
+            return;
+        }
         if (user == null) {
-            logger.info("Пользователь не найден.");
+            System.out.println("Пользователь не найден.");
             return;
         }
 
@@ -124,140 +145,46 @@ public class UserConsoleApp {
 
         System.out.println("Введите новые данные или оставьте ввод пустым");
 
-        user.setName(readValidInputUpdate("Введите новое имя: ", Name::new, user.getName()))
-                .setSurname(readValidInputUpdate("Введите новую фамилию: ", Surname::new, user.getSurname()))
-                .setAge(readValidIntInputUpdate("Введите новый возраст или 0:", Age::new, user.getAge()))
-                .setEmail(readValidInputUpdate("Введите новый Email: ", Email::new, user.getEmail()))
-                .setPhone(readValidInputUpdate("Введите новый телефон: ", Phone::new, user.getPhone()));
+        user.name(Validator.validStringUpdate("Введите новое имя: ", Validator::name, user.name()))
+                .surname(Validator.validStringUpdate("Введите новую фамилию: ", Validator::surname, user.surname()))
+                .age(Validator.validIntUpdate("Введите новый возраст или 0:", Validator::age, user.age()))
+                .email(Validator.validStringUpdate("Введите новый Email: ", Validator::email, user.email()))
+                .phone(Validator.validStringUpdate("Введите новый телефон: ", Validator::phone, user.phone()));
 
-        userDAO.updateUser(user);
-        logger.info("✅ Данные обновлены.");
+        try {
+            UserDAO.updateUser(user);
+        }catch (DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
+            return;
+        }
+            System.out.println("Данные обновлены.");
     }
 
     /**
      * Удаление пользователя
      */
     private static void deleteUser() {
-        int id = readValidInt("ID пользователя для удаления: ");
+        int id = Validator.validInt("ID пользователя для удаления: ");
 
-        User user = userDAO.getUserById(id);
+        User user = null;
+
+        try {
+            user = UserDAO.getUserById(id);
+
+        }catch (DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
+        }
         if (user == null) {
             System.out.println("Пользователь не найден.");
             return;
         }
 
-        userDAO.deleteUser(id);
-        logger.info("✅ Пользователь удалён.");
-    }
-
-    /**
-     * Проверяет ввод пользователя для int
-     * @param message сообщение для пользователя при вводе(опционально)
-     * @return валидированное целочисленное значение
-     */
-    private static int readValidInt(String message){
-        while (true) {
-            System.out.println(message);
-            try {
-                int x = Integer.parseInt(scanner.nextLine());
-                return x;
-            } catch (NumberFormatException e) {
-                logger.info("Введите целое число!");
-            }
+        try {
+            UserDAO.deleteUser(id);
+        }catch (DaoException e) {
+            System.out.println("ОШИБКА! "+e.getMessage());
         }
-    }
-    private static int readValidInt(){
-        while (true) {
-            try {
-                int x = Integer.parseInt(scanner.nextLine());
-                return x;
-            } catch (NumberFormatException e) {
-                logger.info("Введите целое число!");
-            }
-        }
-    }
 
-
-    /**
-     * Валидатор данных для создания пользователя
-     *
-     * @param message сообщение в сосноль при вводе
-     * @param parser ссылка на конструктор VO (в нашем случае)
-     * @return обьект VO
-     * @param <T> обьект VO
-     */
-    private static <T> T readValidInput(String message, ThrowingFunction<String, T> parser) {
-        while (true) {
-            System.out.print(message);
-            String input = scanner.nextLine();
-            try {
-                return parser.apply(input);
-            } catch (Exception e) {
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Валидатор данных для создания пользователя для возраста
-     *
-     * @param message сообщение в сосноль при вводе
-     * @param parser ссылка на конструктор VO (в нашем случае)
-     * @return обьект VO
-     * @param <T> обьект VO
-     */
-    private static <T> T readValidIntInput(String message, ThrowingFunction<Integer, T> parser) {
-        while (true) {
-            System.out.print(message);
-            int number = readValidInt();
-            try {
-                return parser.apply(number);
-            } catch (Exception e) {
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Валидатор данных для обновления пользователя
-     *
-     * @param message сообщение в сосноль при вводе
-     * @param parser ссылка на конструктор VO (в нашем случае)
-     * @return обьект VO
-     * @param <T> обьект VO
-     */
-    private static <T> T readValidInputUpdate(String message, ThrowingFunction<String, T> parser, T oldOne) {
-        while (true) {
-            System.out.print(message);
-            String input = scanner.nextLine();
-            if (input.isBlank()) return oldOne;
-            try {
-                return parser.apply(input);
-            } catch (Exception e) {
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Валидатор данных для обновления пользователя для возраста
-     *
-     * @param message сообщение в сосноль при вводе
-     * @param parser ссылка на конструктор VO (в нашем случае)
-     * @return обьект VO
-     * @param <T> обьект VO
-     */
-    private static <T> T readValidIntInputUpdate(String message, ThrowingFunction<Integer, T> parser, T oldAge) {
-        while (true) {
-            System.out.print(message);
-            int number = readValidInt();
-            if (number == 0) return oldAge;
-            try {
-                return parser.apply(number);
-            } catch (Exception e) {
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
-        }
+        System.out.println("Пользователь удалён.");
     }
 }
-

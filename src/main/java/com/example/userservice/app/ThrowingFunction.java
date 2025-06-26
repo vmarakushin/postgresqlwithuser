@@ -1,13 +1,11 @@
 package com.example.userservice.app;
 
-
 /**
  * Функциональный интерфейс для лямбд в методах обновления и создания юзверя
  *
- * @param <T> функция валидатора
- * @param <R> результат
+ * @param <T> обобщенный тип данных
  */
 @FunctionalInterface
-public interface ThrowingFunction<T, R> {
-    R apply(T t) throws Exception;
+public interface ThrowingFunction<T> {
+    T apply(T t) throws Exception;
 }

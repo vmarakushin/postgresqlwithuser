@@ -3,18 +3,24 @@ package com.example.userservice.config;
 import com.example.userservice.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static com.example.userservice.app.UserConsoleApp.logger;
 
 /**
  * Класс {@code HibernateUtil}  представляет собой фабрику сессий
  * Используется для конфигурации и получения сессий взаимодействия с базой данных.
+ *
  * @author vmarakushin
  * @version 1.0
  */
 
 public class HibernateUtil {
 
+    private HibernateUtil() {
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
@@ -24,7 +30,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(User.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
-            logger.warn("HIBERNATE_UTIL: Ошибка инициализации SessionFactory: " + ex);
+            logger.warn("Ошибка инициализации SessionFactory: " + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }

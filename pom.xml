@@ -12,74 +12,111 @@
 
     <packaging>jar</packaging>
 
+
+    <properties>
+
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.release>23</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <org.postgresql.version>42.7.5</org.postgresql.version>
+
+        <org.hibernate.version>5.6.5.Final</org.hibernate.version>
+
+        <javax.persistence.version>2.2</javax.persistence.version>
+
+        <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
+        <org.junit.jupiter.scope>test</org.junit.jupiter.scope>
+
+        <ch.qos.logback.version>1.5.18</ch.qos.logback.version>
+
+        <org.junit.platform.version>1.0.0</org.junit.platform.version>
+
+        <org.mockito.core.version>5.17.0</org.mockito.core.version>
+        <org.mockito.core.scope>test</org.mockito.core.scope>
+
+        <org.mockito.inline.version>5.2.0</org.mockito.inline.version>
+        <org.mockito.inline.scope>test</org.mockito.inline.scope>
+
+        <org.slf4j.simple.version>2.0.9</org.slf4j.simple.version>
+
+        <maven.surefire.plugin.version>2.19</maven.surefire.plugin.version>
+
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+
+        <org.projectlombok.version>1.18.32</org.projectlombok.version>
+        <org.projectlombok.scope>provided</org.projectlombok.scope>
+
+    </properties>
+
     <dependencies>
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.5</version>
+            <version>${org.postgresql.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.6.5.Final</version>
+            <version>${org.hibernate.version}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
-            <version>2.2</version>
+            <version>${javax.persistence.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.2</version>
-            <scope>test</scope>
+            <version>${org.junit.jupiter.version}</version>
+            <scope>${org.junit.jupiter.scope</scope>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.18</version>
+            <version>${ch.qos.logback.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>1.0.0</version>
+            <version>${org.junit.platform.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.17.0</version>
-            <scope>test</scope>
+            <version>${org.mockito.core.version}</version>
+            <scope>${org.mockito.core.scope</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
-            <version>5.2.0</version>
-            <scope>test</scope>
+            <version>${org.mockito.inline.version}</version>
+            <scope>${org.mockito.inline.scope</scope>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.9</version>
+            <version>${org.slf4j.simple.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${org.projectlombok.version}</version>
+            <scope>${org.projectlombok.scope}</scope>
         </dependency>
 
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
-        <maven.compiler.release>23</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
 
 
     <build>
@@ -91,13 +128,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19</version>
+                    <version>${maven.surefire.plugin.version}</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.10.1</version>
+                    <version>${maven.compiler.plugin.version}</version>
                 </plugin>
 
 
