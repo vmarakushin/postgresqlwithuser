@@ -12,21 +12,26 @@ import java.util.function.Function;
 
 /**
  * Утилитный класс для управления транзакциями.
+ * Можно подсунуть любую фабрику сессий в метод execute()
  *
  * @author ChatGPT
- * @version 1.0
+ * @author vmarakushin
+ * @version 1.3
  */
 public class TransactionalExecutor {
     private static final Logger logger = LoggerFactory.getLogger(TransactionalExecutor.class);
+    private static final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
     private TransactionalExecutor() {
     }
 
     /**
      * Выполняет переданную операцию в рамках транзакции, возвращая результат.
+     *
      */
-    public static <R> R execute (Function<Session, R> action){
+    public static <R> R execute (SessionFactory factory, Function<Session, R> action){
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             R result = action.apply(session);
             transaction.commit();
@@ -36,5 +41,8 @@ public class TransactionalExecutor {
             logger.error(e.getMessage(), e);
             throw new DaoException();
         }
+    }
+    public static <R> R execute(Function<Session, R> action) {
+        return execute(sessionFactory, action);
     }
 }

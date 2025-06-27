@@ -15,38 +15,26 @@
 
     <properties>
 
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
-        <maven.compiler.release>23</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <org.postgresql.version>42.7.5</org.postgresql.version>
-
+        <org.postgresql.version>42.7.7</org.postgresql.version>
         <org.hibernate.version>5.6.5.Final</org.hibernate.version>
-
         <javax.persistence.version>2.2</javax.persistence.version>
 
         <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
-        <org.junit.jupiter.scope>test</org.junit.jupiter.scope>
-
-        <ch.qos.logback.version>1.5.18</ch.qos.logback.version>
-
         <org.junit.platform.version>1.0.0</org.junit.platform.version>
-
-        <org.mockito.core.version>5.17.0</org.mockito.core.version>
-        <org.mockito.core.scope>test</org.mockito.core.scope>
-
-        <org.mockito.inline.version>5.2.0</org.mockito.inline.version>
-        <org.mockito.inline.scope>test</org.mockito.inline.scope>
+        <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
+        <org.mockito.core.version>4.11.0</org.mockito.core.version>
+        <org.testcontainers.version>1.19.7</org.testcontainers.version>
 
         <org.slf4j.simple.version>2.0.9</org.slf4j.simple.version>
-
-        <maven.surefire.plugin.version>2.19</maven.surefire.plugin.version>
-
-        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
-
+        <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
-        <org.projectlombok.scope>provided</org.projectlombok.scope>
+
 
     </properties>
 
@@ -71,36 +59,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${org.junit.jupiter.version}</version>
-            <scope>${org.junit.jupiter.scope</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${ch.qos.logback.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>${org.junit.platform.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${org.mockito.core.version}</version>
-            <scope>${org.mockito.core.scope</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
-            <version>${org.mockito.inline.version}</version>
-            <scope>${org.mockito.inline.scope</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${org.projectlombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -109,12 +71,9 @@
             <version>${org.slf4j.simple.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${org.projectlombok.version}</version>
-            <scope>${org.projectlombok.scope}</scope>
-        </dependency>
+
+
+
 
     </dependencies>
 
@@ -127,21 +86,124 @@
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven.surefire.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>1.18.32</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
                 </plugin>
-
 
             </plugins>
 
         </pluginManagement>
 
     </build>
+
+    <profiles>
+
+        <profile>
+
+            <id>dev</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven.surefire.plugin.version}</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+
+            <id>test</id>
+
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>test</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <dependencies>
+
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-engine</artifactId>
+                    <version>${org.junit.jupiter.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                    <version>${org.mockito.core.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-inline</artifactId>
+                    <version>${org.mockito.inline.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.testcontainers</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${org.testcontainers.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.testcontainers</groupId>
+                    <artifactId>junit-jupiter</artifactId>
+                    <version>${org.testcontainers.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-params</artifactId>
+                    <version>${org.junit.jupiter.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+            </dependencies>
+
+        </profile>
+
+    </profiles>
 
 </project>

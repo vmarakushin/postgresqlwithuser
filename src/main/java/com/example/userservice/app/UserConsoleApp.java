@@ -3,11 +3,12 @@ package com.example.userservice.app;
 import com.example.userservice.exception.DaoException;
 import com.example.userservice.model.User;
 import com.example.userservice.dao.UserDAO;
+import com.example.userservice.service.Reader;
 import com.example.userservice.service.Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 
 /**
@@ -21,16 +22,18 @@ import java.util.List;
  * Использует {@link UserDAO}
  *
  * @author vmarakushin
- * @version 2.1
+ * @version 3.0
  */
 public class UserConsoleApp {
-    private static final Logger logger = LoggerFactory.getLogger(UserConsoleApp.class);
-
+    private final static Reader reader = new Reader(new Scanner(System.in));
 
     /**
      * Главное меню консольного интерфейса
      */
     public static void main(String[] args) {
+
+
+
         while (true) {
 
 
@@ -43,7 +46,7 @@ public class UserConsoleApp {
             System.out.println("0. Выход");
 
 
-            int choice = Validator.validInt("Выбор: ");
+            int choice = Validator.validInt("Выбор: ", reader);
             switch (choice) {
                 case 1 -> createUser();
                 case 2 -> showAllUsers();
@@ -65,19 +68,23 @@ public class UserConsoleApp {
      */
     private static void createUser() {
 
-        User user = new User()
+        User user = User.builder()
                 .name(Validator.validStringCreate("Введите имя: ", Validator::name))
                 .surname(Validator.validStringCreate("Введите фамилию: ", Validator::surname))
                 .age(Validator.validIntCreate("Введите возраст: ", Validator::age))
                 .phone(Validator.validStringCreate("Введите телефон: ", Validator::phone))
-                .email(Validator.validStringCreate("Введите Email: ", Validator::email));
+                .email(Validator.validStringCreate("Введите Email: ", Validator::email))
+                .createdAt(new Date())
+                .build();
+
+
 
         user.show();
 
         try {
             UserDAO.saveUser(user);
         }catch (DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
+            System.out.println("ОШИБКА! Создать пользователя не удалось.");
             return;
         }
         System.out.println("Пользователь создан!");
@@ -91,7 +98,7 @@ public class UserConsoleApp {
         try {
             users = UserDAO.getAllUsers();
         }catch (DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
+            System.out.println("ОШИБКА! Получить список пользователей не удалось.");
             return;
         }
         if (users.isEmpty()) {
@@ -106,12 +113,12 @@ public class UserConsoleApp {
      * Вывод информации о пользователе по ID
      */
     private static void findUserById() {
-        int id = Validator.validInt("ID пользователя: ");
+        int id = Validator.validInt("ID пользователя: ", reader);
         User user = null;
         try {
             user = UserDAO.getUserById(id);
         }catch (DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
+            System.out.println("ОШИБКА!  Получить пользователя не удалось.");
         }
         if (user != null) {
             user.show();
@@ -126,14 +133,14 @@ public class UserConsoleApp {
      */
     private static void updateUser() {
 
-        int id = Validator.validInt("ID пользователя для обновления: ");
+        int id = Validator.validInt("ID пользователя для обновления: ", reader);
 
         User user;
         try {
             user = UserDAO.getUserById(id);
 
         }catch(DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
+            System.out.println("ОШИБКА! Получить пользователя не удалось.");
             return;
         }
         if (user == null) {
@@ -142,29 +149,45 @@ public class UserConsoleApp {
         }
 
         user.show();
-
+        User oldUser = null;
+        try {
+            oldUser = user.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         System.out.println("Введите новые данные или оставьте ввод пустым");
 
-        user.name(Validator.validStringUpdate("Введите новое имя: ", Validator::name, user.name()))
-                .surname(Validator.validStringUpdate("Введите новую фамилию: ", Validator::surname, user.surname()))
-                .age(Validator.validIntUpdate("Введите новый возраст или 0:", Validator::age, user.age()))
-                .email(Validator.validStringUpdate("Введите новый Email: ", Validator::email, user.email()))
-                .phone(Validator.validStringUpdate("Введите новый телефон: ", Validator::phone, user.phone()));
+        user.setName(Validator.validStringUpdate("Введите новое имя: ", Validator::name, user.getName()))
+                .setSurname(Validator.validStringUpdate("Введите новую фамилию: ", Validator::surname, user.getSurname()))
+                .setAge(Validator.validIntUpdate("Введите новый возраст или 0:", Validator::age, user.getAge()))
+                .setEmail(Validator.validStringUpdate("Введите новый Email: ", Validator::email, user.getEmail()))
+                .setPhone(Validator.validStringUpdate("Введите новый телефон: ", Validator::phone, user.getPhone()));
 
-        try {
-            UserDAO.updateUser(user);
-        }catch (DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
-            return;
+        System.out.println("Старые данные:");
+        oldUser.show();
+        System.out.println("Новые данные:");
+        user.show();
+        int choice = Validator.validInt("Обновить пользователя? 1 - да, остальное - нет ", reader);
+        switch (choice) {
+            case 1 -> {
+                try {
+                    UserDAO.updateUser(user);
+                }catch (DaoException e) {
+                    System.out.println("ОШИБКА! Обновить пользователя не удалось.");
+                    return;
+                }
+                System.out.println("Данные обновлены.");
+            }
+            default -> System.out.println("Отмена");
         }
-            System.out.println("Данные обновлены.");
+
     }
 
     /**
      * Удаление пользователя
      */
     private static void deleteUser() {
-        int id = Validator.validInt("ID пользователя для удаления: ");
+        int id = Validator.validInt("ID пользователя для удаления: ", reader);
 
         User user = null;
 
@@ -172,19 +195,30 @@ public class UserConsoleApp {
             user = UserDAO.getUserById(id);
 
         }catch (DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
+            System.out.println("ОШИБКА! Получить пользователя не удалось.");
         }
         if (user == null) {
             System.out.println("Пользователь не найден.");
             return;
         }
 
-        try {
-            UserDAO.deleteUser(id);
-        }catch (DaoException e) {
-            System.out.println("ОШИБКА! "+e.getMessage());
-        }
+        user.show();
 
-        System.out.println("Пользователь удалён.");
+        int choice = Validator.validInt("Удалить пользователя? 1 - да, остальное - нет ", reader);
+
+        switch (choice){
+
+            case 1 ->{
+                try {
+                UserDAO.deleteUser(id);
+                System.out.println("Пользователь удалён.");
+                }catch (DaoException e) {
+                System.out.println("ОШИБКА! Удалить пользователя не удалось");
+                }
+            }
+            default -> {
+                System.out.println("Отмена");
+            }
+        }
     }
 }

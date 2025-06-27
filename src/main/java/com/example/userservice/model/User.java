@@ -1,11 +1,9 @@
 package com.example.userservice.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -18,59 +16,56 @@ import javax.persistence.*;
  * а также методы для работы с балансом.
  *
  * @author vmarakushin
- * @version 1.1
+ * @version 3.0
  */
+@Getter
+@Accessors(chain = true)
 @Entity(name = "User")
 @Table(name = "users")
 @ToString
 @EqualsAndHashCode
-@Accessors(chain = true, fluent = true)
-public class User {
+@Builder
+@AllArgsConstructor
+public class User implements Cloneable {
 
     /**
      * ID
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private int id;
 
     /**
      * Имя
      */
-    @Getter
     @Setter
     private String name;
 
     /**
      * Фамилия
      */
-    @Getter
     @Setter
     private String surname;
 
     /**
      * Возраст
      */
-    @Getter
     @Setter
     private int age;
 
     /**
      * Номер телефона
      */
-    @Getter
     @Setter
     private String phone;
 
     /**
      * Адрес электронки
      */
-    @Getter
     @Setter
     private String email;
 
-    @Getter
+
     /** Баланс */
     private long money;
 
@@ -78,8 +73,8 @@ public class User {
      * Время создания
      */
     @Column(updatable = false)
-    @Getter
     private final Date createdAt;
+
 
 
     public User() {
@@ -94,8 +89,7 @@ public class User {
      * @param money сумма для увеличения.
      */
     public void increaseMoney(long money) {
-        money = Math.abs(money);
-        this.money += money;
+        this.money += Math.abs(money);
     }
 
 
@@ -106,13 +100,16 @@ public class User {
      * @param money сумма для уменьшения.
      */
     public void decreaseMoney(long money) {
-        money = Math.abs(money);
-        this.money -= money;
+        this.money -= money = Math.abs(money);
     }
 
 
     public void show() {
         System.out.println(this);
+    }
+
+    public User clone() throws CloneNotSupportedException {
+        return (User) super.clone();
     }
 }
 

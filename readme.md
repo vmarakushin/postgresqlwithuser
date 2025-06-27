@@ -1,4 +1,11 @@
 # UserConsoleApp
+# Version 3.0
+## Главные изменения:
+- Исправлена обработка исключений
+- Добавлена логика в методы UserConsoleApp.delete(), .update()
+- Unit тесты с использованием моков для валидаторов
+- Integration тест с TestContainers для TransactionExecutor
+- Профили в pom.xml: dev и test
 # Version 2.1
 ## Главные изменения:
 - Версии библиотек вынесены в properties в pom.xml

@@ -4,6 +4,8 @@ import com.example.userservice.app.ThrowingFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 
@@ -11,12 +13,14 @@ import java.util.Scanner;
  * Утилитный класс для валидации всего на свете
  *
  * @author vmarakushin
- * @version 1.0
+ * @version 1.1
  */
 public class Validator {
 
     private static final Logger logger = LoggerFactory.getLogger(Validator.class);
     private static final Scanner scanner = new Scanner(System.in);
+    private static final Reader reader = new Reader(new Scanner(System.in));
+
 
     private Validator() {
     }
@@ -28,11 +32,11 @@ public class Validator {
      * @param message сообщение для пользователя при вводе(опционально)
      * @return валидированное целочисленное значение
      */
-    public static int validInt(String message) {
+    public static int validInt(String message, Reader reader) {
         while (true) {
             if (!message.isBlank()) System.out.println(message);
             try {
-                int x = Integer.parseInt(scanner.nextLine());
+                int x = Integer.parseInt(reader.readLine());
                 return x;
             } catch (NumberFormatException e) {
                 System.out.println("Введите целое число!");
@@ -41,7 +45,7 @@ public class Validator {
         }
     }
     public static int validInt() {
-        return validInt("");
+        return validInt("", reader);
     }
 
     /**
@@ -133,7 +137,7 @@ public class Validator {
      * @return валидированное имя
      */
     public static String name(String name) {
-        if (!name.matches("[a-zA-Zа-яА-ЯёЁ\\-\\s]+"))
+        if (!name.matches("[a-zA-Zа-яА-ЯёЁ\\-\\s]+$"))
             throw new IllegalArgumentException("Имя может содержать только буквы, дефис и пробел");
         return name;
     }
@@ -145,7 +149,7 @@ public class Validator {
      * @return валидированная фамилия
      */
     public static String surname(String surname) {
-        if (!surname.matches("[a-zA-Zа-яА-ЯёЁ\\-\\s]+"))
+        if (!surname.matches("[a-zA-Zа-яА-ЯёЁ\\-\\s]+$"))
             throw new IllegalArgumentException("Фамилия может содержать только буквы, дефис и пробел");
         return surname;
     }
@@ -181,7 +185,7 @@ public class Validator {
      * @return валидированный емейл
      */
     public static String email(String email) {
-        if (!email.matches("^[a-zA-Z0-9._%+-]{3,}   @   [a-zA-Z0-9.-]{3,}   \\.   [a-zA-Z]{2,}$"))
+        if (!email.matches("^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]{3,}\\.[a-zA-Z]{2,}$"))
             throw new IllegalArgumentException("Email должен соответствовать формату , например example@example.com");
         return email;
     }
