@@ -4,131 +4,70 @@ import com.example.userservice.app.ThrowingFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-
 
 /**
  * Утилитный класс для валидации всего на свете
  *
  * @author vmarakushin
- * @version 1.1
+ * @version 2.0
  */
 public class Validator {
 
     private static final Logger logger = LoggerFactory.getLogger(Validator.class);
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final Reader reader = new Reader(new Scanner(System.in));
-
+    private static final String validatorMessage = "Ошибка валидации ввода: ";
 
     private Validator() {
     }
 
     /**
-     * Считывает int
+     * Валидирует int
      * Отсекает неправильный тип данных
      *
-     * @param message сообщение для пользователя при вводе(опционально)
      * @return валидированное целочисленное значение
      */
-    public static int validInt(String message, Reader reader) {
-        while (true) {
-            if (!message.isBlank()) System.out.println(message);
-            try {
-                int x = Integer.parseInt(reader.readLine());
-                return x;
-            } catch (NumberFormatException e) {
-                System.out.println("Введите целое число!");
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
+    public static int validInt(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            logger.warn(validatorMessage + e.getMessage());
+            throw new IllegalArgumentException("Введите целое число!");
         }
     }
-    public static int validInt() {
-        return validInt("", reader);
-    }
+
 
     /**
-     * Считывающий адаптер для валидатора
-     * при создании пользователя
-     * @param message сообщение в консоль при вводе
-     * @param parser  ссылка на String метод-валидатор
+     * Адаптер для валидации строк
+     *
+     * @param input  строка для валидации
+     * @param parser ссылка на String метод-валидатор
      * @return валидированная строка
      */
-    public static String validStringCreate(String message, ThrowingFunction<String> parser) {
-        while (true) {
-            System.out.print(message);
-            String input = scanner.nextLine();
-            try {
-                return parser.apply(input);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
+    public static String validStringCreate(String input, ThrowingFunction<String> parser) throws Exception {
+        try {
+            return parser.apply(input);
+        } catch (Exception e) {
+            logger.warn(validatorMessage + e.getMessage());
+            throw e;
         }
     }
 
     /**
      * Валидатор данных для создания пользователя для возраста
      *
-     * @param message сообщение в сосноль при вводе
-     * @param parser  ссылка на Int метод-валидатор
+     * @param input  - String для валидации
+     * @param parser ссылка на Int метод-валидатор
      * @return валидированный int
      */
-    public static int validIntCreate(String message, ThrowingFunction<Integer> parser) {
-        while (true) {
-            System.out.print(message);
-            int number = validInt();
-            try {
-                return parser.apply(number);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
+    public static int validIntCreate(String input, ThrowingFunction<Integer> parser) throws Exception {
+        try {
+            int number = validInt(input);
+            return parser.apply(number);
+        } catch (Exception e) {
+            logger.warn(validatorMessage + e.getMessage());
+            throw e;
         }
     }
 
-    /**
-     * Валидатор данных для обновления пользователя
-     *
-     * @param message сообщение в сосноль при вводе
-     * @param parser  ссылка на валидатор
-     * @return валидированная строка
-     */
-    public static String validStringUpdate(String message, ThrowingFunction<String> parser, String oldOne) {
-        while (true) {
-            System.out.print(message);
-            String input = scanner.nextLine();
-            if (input.isBlank()) return oldOne;
-            try {
-                return parser.apply(input);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Валидатор данных для обновления пользователя для возраста
-     *
-     * @param message сообщение в сосноль при вводе
-     * @param parser  ссылка на валидатор
-     * @return валидированный возраст
-     */
-    public static int validIntUpdate(String message, ThrowingFunction<Integer> parser, int oldAge) {
-        while (true) {
-            System.out.print(message);
-            int number = validInt();
-            if (number == 0) return oldAge;
-            try {
-                return parser.apply(number);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                logger.warn("Ошибка валидации ввода: {}", e.getMessage());
-            }
-        }
-    }
 
     /**
      * Валидатор для имени

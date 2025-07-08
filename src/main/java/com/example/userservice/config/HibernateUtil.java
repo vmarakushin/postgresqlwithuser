@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Класс {@code HibernateUtil}  представляет собой фабрику сессий
+ * Класс {@code HibernateUtil} поставщик фабрики сессий
  * Используется для конфигурации и получения сессий взаимодействия с базой данных.
  *
  * @author vmarakushin

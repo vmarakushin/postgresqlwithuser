@@ -6,23 +6,34 @@ import java.util.List;
 
 /**
  * Класс {@code UserDAO} представляет собой сервис для взаимодействия с базой данных
+ * Класс {@link TransactionalExecutor} - для исполнения однообразных участков кода
+ * Можно подставить любой TransactionalExecutor, по умолчанию возьмет TransactionExecutor с HibernateUtil
  *
- *  @author vmarakushin
- * @version 1.1
+ * @author vmarakushin
+ * @version 2.0
  */
 public class UserDAO {
 
+    private final  TransactionalExecutor transactionalExecutor;
+
+
+    public UserDAO() {
+        this(new TransactionalExecutor());
+    }
+    public UserDAO(TransactionalExecutor transactionalExecutor) {
+        this.transactionalExecutor = transactionalExecutor;
+    }
 
     /**
      * Сохраняет переданного пользователя в базу данных
      *
      * @param user пользователь для сохранения
      */
-    public static void saveUser(User user){
-            TransactionalExecutor.execute(session -> {
-                        session.save(user);
-                        return null;
-            });
+    public void saveUser(User user) {
+        transactionalExecutor.execute(session -> {
+            session.save(user);
+            return null;
+        });
     }
 
     /**
@@ -31,8 +42,8 @@ public class UserDAO {
      * @param id айди искомого пользователя
      * @return искомый пользователь
      */
-    public static User getUserById(int id) {
-            return TransactionalExecutor.execute(session -> session.get(User.class, id));
+    public User getUserById(int id) {
+        return transactionalExecutor.execute(session -> session.get(User.class, id));
     }
 
     /**
@@ -40,8 +51,8 @@ public class UserDAO {
      *
      * @return список всех пользователей
      */
-    public static List<User> getAllUsers() {
-            return TransactionalExecutor.execute(session -> session.createQuery("from User").list());
+    public List<User> getAllUsers() {
+        return transactionalExecutor.execute(session -> session.createQuery("from User").list());
     }
 
     /**
@@ -49,19 +60,20 @@ public class UserDAO {
      *
      * @param user пользователь с обновленными данными
      */
-    public static void updateUser(User user) {
-        TransactionalExecutor.execute(session -> {
+    public void updateUser(User user) {
+        transactionalExecutor.execute(session -> {
             session.update(user);
             return null;
         });
     }
+
     /**
      * Удаляет пользователя с указанным ID
      *
      * @param id ID пользователя для удаления
      */
-    public static void deleteUser(int id) {
-        TransactionalExecutor.execute(session -> {
+    public void deleteUser(int id) {
+        transactionalExecutor.execute(session -> {
             User user = session.get(User.class, id);
             if (user != null) {
                 session.delete(user);

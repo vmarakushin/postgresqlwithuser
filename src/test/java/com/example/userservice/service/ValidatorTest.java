@@ -3,7 +3,7 @@ package com.example.userservice.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
+
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,9 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Тесты для валидатора
  * @author vmarakushin
- * @version 1.0
+ * @version 1.1
  */
 public class ValidatorTest {
+
 
 
     @DisplayName("Проверка валидных имен")
@@ -130,10 +131,16 @@ public class ValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"1", "1000", "14423", "-16384"})
     public void validIntShouldPass(String input) {
-        Reader mockReader = Mockito.mock(Reader.class);
-        Mockito.when(mockReader.readLine()).thenReturn(input);
         int expected = Integer.parseInt(input);
-        int actual = Validator.validInt(" ", mockReader);
+        int actual = Validator.validInt(input);
         assertEquals(expected, actual);
+    }
+
+
+    @DisplayName("Инвалидные для validInt")
+    @ParameterizedTest
+    @ValueSource(strings = {"shafbgish", "  fsagf336==sv"})
+    public void inValidIntShouldThrow(String input){
+        assertThrows(IllegalArgumentException.class, () -> Validator.validInt(input));
     }
 }

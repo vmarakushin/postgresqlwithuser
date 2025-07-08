@@ -11,27 +11,31 @@ import org.slf4j.LoggerFactory;
 import java.util.function.Function;
 
 /**
- * Утилитный класс для управления транзакциями.
- * Можно подсунуть любую фабрику сессий в метод execute()
+ * Класс для управления транзакциями.
+ * Можно подсунуть любую фабрику сессий в конструктор, по умолчанию возьмет из HibernateUtil
  *
- * @author ChatGPT
  * @author vmarakushin
- * @version 1.3
+ * @version 2.0
  */
 public class TransactionalExecutor {
-    private static final Logger logger = LoggerFactory.getLogger(TransactionalExecutor.class);
-    private static final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-    private TransactionalExecutor() {
+    private final Logger logger = LoggerFactory.getLogger(TransactionalExecutor.class);
+
+    private final SessionFactory sessionFactory;
+
+    public TransactionalExecutor() {
+        this(HibernateUtil.getSessionFactory());
+    }
+    public TransactionalExecutor(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     /**
      * Выполняет переданную операцию в рамках транзакции, возвращая результат.
-     *
      */
-    public static <R> R execute (SessionFactory factory, Function<Session, R> action){
+    public <R> R execute(Function<Session, R> action) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             R result = action.apply(session);
             transaction.commit();
@@ -42,7 +46,5 @@ public class TransactionalExecutor {
             throw new DaoException();
         }
     }
-    public static <R> R execute(Function<Session, R> action) {
-        return execute(sessionFactory, action);
-    }
+
 }

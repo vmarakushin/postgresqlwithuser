@@ -26,7 +26,7 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @Builder
 @AllArgsConstructor
-public class User implements Cloneable {
+public class User {
 
     /**
      * ID
@@ -66,7 +66,9 @@ public class User implements Cloneable {
     private String email;
 
 
-    /** Баланс */
+    /**
+     * Баланс
+     */
     private long money;
 
     /**
@@ -74,7 +76,6 @@ public class User implements Cloneable {
      */
     @Column(updatable = false)
     private final Date createdAt;
-
 
 
     public User() {
@@ -108,8 +109,18 @@ public class User implements Cloneable {
         System.out.println(this);
     }
 
-    public User clone() throws CloneNotSupportedException {
-        return (User) super.clone();
+
+    public User clone() {
+        return User.builder()
+                .id(this.id)
+                .name(this.name)
+                .surname(this.surname)
+                .age(this.age)
+                .phone(this.phone)
+                .email(this.email)
+                .money(this.money)
+                .createdAt(new Date(this.createdAt.getTime()))
+                .build();
     }
 }
 
