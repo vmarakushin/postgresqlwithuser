@@ -1,61 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.vmarakushin</groupId>
-
     <artifactId>postgresqlwithuser</artifactId>
-
     <version>1.0-SNAPSHOT</version>
-
     <packaging>jar</packaging>
 
-
     <properties>
-
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <org.postgresql.version>42.7.7</org.postgresql.version>
-        <org.hibernate.version>5.6.5.Final</org.hibernate.version>
-        <javax.persistence.version>2.2</javax.persistence.version>
-
+        <spring-boot.version>3.2.4</spring-boot.version>
         <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
         <org.junit.platform.version>1.0.0</org.junit.platform.version>
         <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
         <org.mockito.core.version>4.11.0</org.mockito.core.version>
         <org.testcontainers.version>1.19.7</org.testcontainers.version>
-
         <org.slf4j.simple.version>2.0.9</org.slf4j.simple.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
-
-
+        <com.h2database.version>2.2.224</com.h2database.version>
+        <spring.boot.jdbc.version>3.2.5</spring.boot.jdbc.version>
     </properties>
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${org.postgresql.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${org.hibernate.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>${javax.persistence.version}</version>
         </dependency>
 
         <dependency>
@@ -65,25 +57,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${org.slf4j.simple.version}</version>
-        </dependency>
-
-
-
-
-
     </dependencies>
 
-
     <build>
-
         <pluginManagement>
-
             <plugins>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -93,30 +71,28 @@
                             <path>
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
-                                <version>1.18.32</version>
+                                <version>${org.projectlombok.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
             </plugins>
-
         </pluginManagement>
-
     </build>
 
     <profiles>
 
+
         <profile>
-
             <id>dev</id>
-
             <activation>
                 <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>env</name>
-                    <value>dev</value>
-                </property>
             </activation>
             <build>
                 <plugins>
@@ -134,9 +110,7 @@
 
 
         <profile>
-
             <id>test</id>
-
             <activation>
                 <property>
                     <name>env</name>
@@ -144,24 +118,25 @@
                 </property>
             </activation>
 
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skipTests>false</skipTests>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-
             <dependencies>
-
                 <dependency>
                     <groupId>org.junit.jupiter</groupId>
                     <artifactId>junit-jupiter-engine</artifactId>
                     <version>${org.junit.jupiter.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-params</artifactId>
+                    <version>${org.junit.jupiter.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-test</artifactId>
+                    <version>${spring-boot.version}</version>
                     <scope>test</scope>
                 </dependency>
 
@@ -194,14 +169,19 @@
                 </dependency>
 
                 <dependency>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter-params</artifactId>
-                    <version>${org.junit.jupiter.version}</version>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>${com.h2database.version}</version>
                     <scope>test</scope>
                 </dependency>
 
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                    <version>${spring.boot.jdbc.version}</version>
+                    <scope>test</scope>
+                </dependency>
             </dependencies>
-
         </profile>
 
     </profiles>

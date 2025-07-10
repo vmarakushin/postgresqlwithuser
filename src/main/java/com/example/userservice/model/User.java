@@ -2,17 +2,16 @@ package com.example.userservice.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+
 
 /**
  * Класс {@code User} представляет собой сущность пользователя.
  * Основные данные: ID, имя, фамилия, возраст, номер телефона, email, время создания и баланс.
- * <p>
  * Содержит в себе геттеры для всех полей
- * и сеттеры для: name, surname, age, phone, email, поддерживают fluent
+ * и сеттеры для: name, surname, age, phone, email
  * а также методы для работы с балансом.
  *
  * @author vmarakushin
@@ -20,7 +19,7 @@ import javax.persistence.*;
  */
 @Getter
 @Accessors(chain = true)
-@Entity(name = "User")
+@Entity
 @Table(name = "users")
 @ToString
 @EqualsAndHashCode
@@ -33,7 +32,7 @@ public class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     /**
      * Имя
@@ -101,12 +100,7 @@ public class User {
      * @param money сумма для уменьшения.
      */
     public void decreaseMoney(long money) {
-        this.money -= money = Math.abs(money);
-    }
-
-
-    public void show() {
-        System.out.println(this);
+        this.money -= Math.abs(money);
     }
 
 

@@ -4,19 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="VERSION: 3.0&#10;Ответ на ДЗ 3">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/InputParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/fabrics/UserFactory.java" afterDir="false" />
+    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="VERSION: 3.7&#10;Фикс ДЗ 3">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/UserServiceApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dto/RequestUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/RepositoryException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/UserServiceException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/controller/UserControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/mapper/UserMapperTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/repository/UserRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/UserServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/InputParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/DaoException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/DaoException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/DaoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/fabrics/UserFactory.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/Reader.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/Validator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/dao/UserDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/dao/UserDAOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/dao/UserDAOTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/ValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/ValidatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +44,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -72,6 +89,12 @@
     "Application.postgresqlwithuser.Main.executor": "Run",
     "JUnit.MockitoTest.executor": "Run",
     "JUnit.MockitoTest.testGetUserById.executor": "Run",
+    "JUnit.UserControllerTest.executor": "Run",
+    "JUnit.UserControllerTest.testGetAllShouldReturn500RepositoryException.executor": "Run",
+    "JUnit.UserControllerTest.testGetByIdShouldReturn200UserById.executor": "Run",
+    "JUnit.UserControllerTest.testPutShouldReturn400DifferentIDs.executor": "Run",
+    "JUnit.UserControllerTest.testShouldReturn201ValidPost.executor": "Run",
+    "JUnit.UserControllerTest.testShouldReturn400UserServiceException.executor": "Run",
     "JUnit.UserDAOTest.executor": "Run",
     "JUnit.UserDAOTest.testContainerRunning.executor": "Run",
     "JUnit.UserDAOTest.testDAODelete.executor": "Run",
@@ -81,16 +104,42 @@
     "JUnit.UserDAOTest.testDBReadWrite.executor": "Run",
     "JUnit.UserDAOTest.testDBReadWrite2.executor": "Run",
     "JUnit.UserDAOTest.testDBWrite.executor": "Run",
+    "JUnit.UserMapperTest.executor": "Run",
+    "JUnit.UserRepositoryTest.executor": "Run",
+    "JUnit.UserRepositoryTest.testCheckEmail.executor": "Run",
+    "JUnit.UserRepositoryTest.testCheckEmailNotUnique.executor": "Run",
+    "JUnit.UserRepositoryTest.testCheckEmailSameUser.executor": "Run",
+    "JUnit.UserRepositoryTest.testDeleteUser.executor": "Run",
+    "JUnit.UserRepositoryTest.testGetAllUsers.executor": "Run",
+    "JUnit.UserRepositoryTest.testGetUser.executor": "Run",
+    "JUnit.UserRepositoryTest.testSaveUser.executor": "Run",
+    "JUnit.UserRepositoryTest.testUpdateUser.executor": "Run",
+    "JUnit.UserServiceTest.testCreateInvalidUser.executor": "Run",
+    "JUnit.UserServiceTest.testCreateNonUniqueUser.executor": "Run",
+    "JUnit.UserServiceTest.testCreateUserFromNonNullId.executor": "Run",
+    "JUnit.UserServiceTest.testCreateValidUser.executor": "Run",
+    "JUnit.UserServiceTest.testGetAllUsers.executor": "Run",
+    "JUnit.UserServiceTest.testGetAllUsersAdvance.executor": "Run",
+    "JUnit.UserServiceTest.testInvalidDeleteUser.executor": "Run",
+    "JUnit.UserServiceTest.testInvalidGetUserById.executor": "Run",
+    "JUnit.UserServiceTest.testInvalidUpdateUser.executor": "Run",
+    "JUnit.UserServiceTest.testValidDeleteUser.executor": "Run",
+    "JUnit.UserServiceTest.testValidGetUserById.executor": "Run",
+    "JUnit.UserServiceTest.testValidUpdateUser.executor": "Run",
     "JUnit.ValidatorTest.executor": "Run",
     "JUnit.ValidatorTest.inValidIntShouldThrow.executor": "Run",
+    "JUnit.ValidatorTest.inValidLongShouldThrow.executor": "Run",
     "JUnit.ValidatorTest.invalidEmailsShouldThrow.executor": "Run",
+    "JUnit.ValidatorTest.invalidIdShouldThrow.executor": "Run",
     "JUnit.ValidatorTest.validEmailsShouldPass.executor": "Run",
+    "JUnit.ValidatorTest.validIdShouldPass.executor": "Run",
     "JUnit.ValidatorTest.validIntShouldPass.executor": "Run",
     "JUnit.ValidatorTest.validInt_withByte_ShouldThrow.executor": "Run",
     "JUnit.ValidatorTest.validInt_withLong_ShouldHang.executor": "Run",
     "JUnit.ValidatorTest.validInt_withString_ShouldHang.executor": "Run",
     "JUnit.ValidatorTest.validInt_withString_ShouldThrow (1).executor": "Run",
     "JUnit.ValidatorTest.validInt_withString_ShouldThrow.executor": "Run",
+    "JUnit.ValidatorTest.validLongShouldPass.executor": "Run",
     "JUnit.ValidatorTest.validNameShouldPass.executor": "Run",
     "Maven.postgresqlwithuser [clean].executor": "Run",
     "Maven.postgresqlwithuser [compile].executor": "Run",
@@ -103,8 +152,13 @@
     "Maven.postgresqlwithuser [test].executor": "Run",
     "Maven.postgresqlwithuser [validate].executor": "Run",
     "Maven.postgresqlwithuser [verify].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.UserServiceApp.executor": "Run",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
@@ -128,6 +182,7 @@
       <recent name="C:\Users\VLADLEN\IdeaProjects\postgresqlwithuser\src\main\java" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.userservice" />
       <recent name="com.example.userservice.service" />
       <recent name="mypackage" />
       <recent name="" />
@@ -138,82 +193,81 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ValidatorTest.inValidIntShouldThrow">
-    <configuration name="UserDAOTest.testDAODelete" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.UserControllerTest">
+    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.dao.*" />
+          <option name="PATTERN" value="com.example.userservice.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.dao.UserDAOTest" />
-      <option name="METHOD_NAME" value="testDAODelete" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.testGetAllShouldReturn500RepositoryException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgresqlwithuser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.userservice.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="testGetAllShouldReturn500RepositoryException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.testDAOManyEntities" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.testGetByIdShouldReturn200UserById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.dao.*" />
+          <option name="PATTERN" value="com.example.userservice.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.dao.UserDAOTest" />
-      <option name="METHOD_NAME" value="testDAOManyEntities" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="testGetByIdShouldReturn200UserById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.testDAOUpdate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.testPutShouldReturn400DifferentIDs" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.dao.*" />
+          <option name="PATTERN" value="com.example.userservice.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.dao.UserDAOTest" />
-      <option name="METHOD_NAME" value="testDAOUpdate" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="testPutShouldReturn400DifferentIDs" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserDAOTest.testDBWrite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.testShouldReturn400UserServiceException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.dao.*" />
+          <option name="PATTERN" value="com.example.userservice.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.dao.UserDAOTest" />
-      <option name="METHOD_NAME" value="testDBWrite" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ValidatorTest.inValidIntShouldThrow" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="postgresqlwithuser" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.userservice.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.service" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.service.ValidatorTest" />
-      <option name="METHOD_NAME" value="inValidIntShouldThrow(java.lang.String)" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
+      <option name="METHOD_NAME" value="testShouldReturn400UserServiceException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -221,11 +275,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ValidatorTest.inValidIntShouldThrow" />
-        <item itemvalue="JUnit.UserDAOTest.testDAODelete" />
-        <item itemvalue="JUnit.UserDAOTest.testDBWrite" />
-        <item itemvalue="JUnit.UserDAOTest.testDAOUpdate" />
-        <item itemvalue="JUnit.UserDAOTest.testDAOManyEntities" />
+        <item itemvalue="JUnit.UserControllerTest" />
+        <item itemvalue="JUnit.UserControllerTest.testGetAllShouldReturn500RepositoryException" />
+        <item itemvalue="JUnit.UserControllerTest.testPutShouldReturn400DifferentIDs" />
+        <item itemvalue="JUnit.UserControllerTest.testGetByIdShouldReturn200UserById" />
+        <item itemvalue="JUnit.UserControllerTest.testShouldReturn400UserServiceException" />
       </list>
     </recent_temporary>
   </component>
@@ -290,7 +344,11 @@
       <workItem from="1751823636278" duration="68000" />
       <workItem from="1751903059485" duration="9000" />
       <workItem from="1751905185658" duration="400000" />
-      <workItem from="1751984656247" duration="3788000" />
+      <workItem from="1751984656247" duration="14035000" />
+      <workItem from="1752060976491" duration="39947000" />
+      <workItem from="1752103674327" duration="46000" />
+      <workItem from="1752164509207" duration="1196000" />
+      <workItem from="1752165717545" duration="10212000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -348,7 +406,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751058713034</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="VERSION: 3.7&#10;Фикс ДЗ 3">
+      <option name="closed" value="true" />
+      <created>1751989428326</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1751989428326</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -371,7 +437,8 @@
     <MESSAGE value="Реструктуризация проекта&#10;Поддержка Fluent в сеттерах User&#10;Хранение данных в value object с авто-валидацией&#10;DRY: Отдельный сервис для работы с транзакциями;&#10;Повторяющиеся элементы кода в UserConsoleApp вынесены в отдельные методы." />
     <MESSAGE value="VERSION: 2.1&#10;Пофиксил замечания по ДЗ 2" />
     <MESSAGE value="VERSION: 3.0&#10;Ответ на ДЗ 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="VERSION: 3.0&#10;Ответ на ДЗ 3" />
+    <MESSAGE value="VERSION: 3.7&#10;Фикс ДЗ 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="VERSION: 3.7&#10;Фикс ДЗ 3" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

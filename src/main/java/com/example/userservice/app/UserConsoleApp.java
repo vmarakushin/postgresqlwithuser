@@ -1,19 +1,24 @@
 package com.example.userservice.app;
 
 
-import com.example.userservice.exception.DaoException;
-import com.example.userservice.model.User;
-import com.example.userservice.dao.UserDAO;
+import com.example.userservice.dto.RequestUserDTO;
+import com.example.userservice.dto.UserDTO;
+import com.example.userservice.exception.RepositoryException;
+import com.example.userservice.exception.UserServiceException;
+import com.example.userservice.service.UserService;
 import com.example.userservice.service.Validator;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
 
 /**
- * Класс {@code UserConsoleApp} представляет собой пользовательский интерфейс
+ * Представляет собой пользовательский интерфейс.
  * Предоставляет методы для:
  * Создания нового пользователя
  * Вывода информации обо всех пользователях
@@ -22,19 +27,29 @@ import java.util.function.Consumer;
  * Удаления пользователя
  *
  * @author vmarakushin
- * @version 3.7
+ * @version 4.0
  */
-public class UserConsoleApp {
+@Component
+public class UserConsoleApp implements CommandLineRunner {
 
-    private final static UserDAO userDAO = new UserDAO();
+    private final Validator validator;
 
-    private final static Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
+    private final UserService userService;
+
+
+    public UserConsoleApp(UserService userService, Validator validator) {
+        this.userService = userService;
+        this.scanner = new Scanner(System.in);
+        this.validator = validator;
+    }
+
 
     /**
      * Главное меню консольного интерфейса
      */
-    public static void main(String[] args) {
-
+    public void run(String[] args) {
         while (true) {
 
             System.out.println("\n=== Меню пользователя ===");
@@ -46,7 +61,7 @@ public class UserConsoleApp {
             System.out.println("0. Выход");
 
 
-            int choice = inputCycle("Выбор: ", Validator::validInt);
+            int choice = inputCycle("Выбор: ", validator::validInt);
 
             switch (choice) {
                 case 1 -> createUser();
@@ -67,39 +82,35 @@ public class UserConsoleApp {
     /**
      * Создает нового пользователя на основании введенных данных
      */
-    private static void createUser() {
+    private void createUser() {
 
         System.out.println("##################################");
         System.out.println("## Создать нового пользователя ##");
         System.out.println("##################################");
 
 
-        String name = inputCycle("Введите имя: ", input -> Validator.validStringCreate(input, Validator::name));
-        String surname = inputCycle("Введите фамилию: ", input -> Validator.validStringCreate(input, Validator::surname));
-        int age = inputCycle("Введите возраст: ", input -> Validator.validIntCreate(input, Validator::age));
-        String phone = inputCycle("Введите телефон: ", input -> Validator.validStringCreate(input, Validator::phone));
-        String email = inputCycle("Введите email: ", input -> Validator.validStringCreate(input, Validator::email));
+        String name = inputCycle("Введите имя: ", input -> validator.validStringCreate(input, validator::name));
+        String surname = inputCycle("Введите фамилию: ", input -> validator.validStringCreate(input, validator::surname));
+        int age = inputCycle("Введите возраст: ", input -> validator.validIntCreate(input, validator::age));
+        String phone = inputCycle("Введите телефон: ", input -> validator.validStringCreate(input, validator::phone));
+        String email = inputCycle("Введите email: ", input -> validator.validStringCreate(input, validator::email));
 
 
-        User user = User.builder()
-                .name(name)
-                .surname(surname)
-                .age(age)
-                .phone(phone)
-                .email(email)
-                .createdAt(new Date())
-                .build();
+        UserDTO dto = new UserDTO(0L, name, surname, age, phone, email, 0L, new Date());
 
 
-        user.show();
+        System.out.println(dto);
 
-        int choice = inputCycle("Создать пользователя с указанными данными? 1 - да, остальное - нет", Validator::validInt);
+
+        int choice = inputCycle("Создать пользователя с указанными данными? 1 - да, остальное - нет", validator::validInt);
 
         if (choice == 1) {
             try {
-                userDAO.saveUser(user);
+                userService.createUser(dto);
                 System.out.println("Пользователь создан!");
-            } catch (DaoException e) {
+            } catch (UserServiceException | IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (RepositoryException e) {
                 System.out.println("ОШИБКА! Создать пользователя не удалось.");
             }
         } else {
@@ -111,24 +122,24 @@ public class UserConsoleApp {
     /**
      * Вывод информации обо всех пользователях
      */
-    private static void showAllUsers() {
+    private void showAllUsers() {
 
         System.out.println("#################################");
         System.out.println("## Показать всех пользователей ##");
         System.out.println("#################################");
 
 
-        List<User> users;
+        List<UserDTO> users;
         try {
-            users = userDAO.getAllUsers();
-        } catch (DaoException e) {
+            users = userService.getAllUsers();
+        } catch (RepositoryException e) {
             System.out.println("ОШИБКА! Получить список пользователей не удалось.");
             return;
         }
         if (users.isEmpty()) {
             System.out.println("Нет пользователей.");
         } else {
-            users.forEach(User::show);
+            users.forEach(System.out::println);
         }
 
     }
@@ -136,22 +147,28 @@ public class UserConsoleApp {
     /**
      * Вывод информации о пользователе по ID
      */
-    private static void findUserById() {
+    private void findUserById() {
 
         System.out.println("##############################");
         System.out.println("## Найти пользователя по ID ##");
         System.out.println("##############################");
 
-        int id = inputCycle("ID пользователя: ", Validator::validInt);
-        User user;
+        long id = inputCycle("ID пользователя: ", input -> validator.validIdCreate(input, validator::id));
+
+        Optional<UserDTO> user;
+
         try {
-            user = userDAO.getUserById(id);
-        } catch (DaoException e) {
+            user = userService.getUserById(new RequestUserDTO(id));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (RepositoryException e) {
             System.out.println("ОШИБКА!  Получить пользователя не удалось.");
             return;
         }
-        if (user != null) {
-            user.show();
+
+        if (user.isPresent()) {
+            System.out.println(user.get());
         } else {
             System.out.println("Пользователь не найден.");
         }
@@ -161,49 +178,64 @@ public class UserConsoleApp {
     /**
      * Обновление данных пользователя
      */
-    private static void updateUser() {
+    private void updateUser() {
 
         System.out.println("###########################");
         System.out.println("## Обновить пользователя ##");
         System.out.println("###########################");
 
 
-        int id = inputCycle("ID пользователя: ", Validator::validInt);
-        User user;
+        long id = inputCycle("ID пользователя: ", input -> validator.validIdCreate(input, validator::id));
+        Optional<UserDTO> user;
 
         try {
-            user = userDAO.getUserById(id);
-
-        } catch (DaoException e) {
+            user = userService.getUserById(new RequestUserDTO(id));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (RepositoryException e) {
             System.out.println("ОШИБКА! Получить пользователя не удалось.");
             return;
         }
-        if (user == null) {
+
+        if (user.isEmpty()) {
             System.out.println("Пользователь не найден.");
             return;
         }
 
-        user.show();
+        UserDTO userDTO = user.get();
+        System.out.println(userDTO);
 
-        User oldUser = user.clone();
+        UserDTO oldUser = new UserDTO(
+                userDTO.getId(),
+                userDTO.getName(),
+                userDTO.getSurname(),
+                userDTO.getAge(),
+                userDTO.getPhone(),
+                userDTO.getEmail(),
+                userDTO.getMoney(),
+                userDTO.getCreatedAt()
+        );
 
 
-        updateField("Введите новое имя: ", user::setName, input -> Validator.validStringCreate(input, Validator::name));
-        updateField("Введите новую фамилию: ", user::setSurname, input -> Validator.validStringCreate(input, Validator::surname));
-        updateField("Введите новый возраст: ", user::setAge, input -> Validator.validIntCreate(input, Validator::age));
-        updateField("Введите новый email: ", user::setEmail, input -> Validator.validStringCreate(input, Validator::email));
-        updateField("Введите новый телефон: ", user::setPhone, input -> Validator.validStringCreate(input, Validator::phone));
+        updateField("Введите новое имя: ", userDTO::setName, input -> validator.validStringCreate(input, validator::name));
+        updateField("Введите новую фамилию: ", userDTO::setSurname, input -> validator.validStringCreate(input, validator::surname));
+        updateField("Введите новый возраст: ", userDTO::setAge, input -> validator.validIntCreate(input, validator::age));
+        updateField("Введите новый email: ", userDTO::setEmail, input -> validator.validStringCreate(input, validator::email));
+        updateField("Введите новый телефон: ", userDTO::setPhone, input -> validator.validStringCreate(input, validator::phone));
 
-        System.out.println("Старые данные:");
-        oldUser.show();
-        System.out.println("Новые данные:");
-        user.show();
+        System.out.println("Старые данные:" + oldUser);
 
-        int choice = inputCycle("Обновить пользователя? 1 - да, остальное - нет ", Validator::validInt);
+        System.out.println("Новые данные:" + userDTO);
+
+        int choice = inputCycle("Обновить пользователя? 1 - да, остальное - нет ", validator::validInt);
         if (choice == 1) {
             try {
-                userDAO.updateUser(user);
-            } catch (DaoException e) {
+                userService.updateUser(userDTO);
+            } catch (IllegalArgumentException | UserServiceException e) {
+                System.out.println(e.getMessage());
+                return;
+            } catch (RepositoryException e) {
                 System.out.println("ОШИБКА! Обновить пользователя не удалось.");
             }
             System.out.println("Данные обновлены.");
@@ -215,40 +247,44 @@ public class UserConsoleApp {
     /**
      * Удаление пользователя
      */
-    private static void deleteUser() {
+    private void deleteUser() {
 
         System.out.println("##########################");
         System.out.println("## Удалить пользователя ##");
         System.out.println("##########################");
 
 
-        int id = inputCycle("ID пользователя: ", Validator::validInt);
+        long id = inputCycle("ID пользователя: ", input -> validator.validIdCreate(input, validator::id));
 
 
-        User user;
+        Optional<UserDTO> user;
 
         try {
-            user = userDAO.getUserById(id);
-
-        } catch (DaoException e) {
+            user = userService.getUserById(new RequestUserDTO(id));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (RepositoryException e) {
             System.out.println("ОШИБКА! Получить пользователя не удалось.");
             return;
         }
-        if (user == null) {
+        if (user.isEmpty()) {
             System.out.println("Пользователь не найден.");
             return;
         }
 
-        user.show();
+        System.out.println(user.get());
 
 
-        int choice = inputCycle("Удалить пользователя? 1 - да, остальное - нет ", Validator::validInt);
+        int choice = inputCycle("Удалить пользователя? 1 - да, остальное - нет ", validator::validInt);
 
         if (choice == 1) {
             try {
-                userDAO.deleteUser(id);
+                userService.deleteUser(new RequestUserDTO(id));
                 System.out.println("Пользователь удалён.");
-            } catch (DaoException e) {
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (RepositoryException e) {
                 System.out.println("ОШИБКА! Удалить пользователя не удалось");
             }
         } else {
@@ -257,13 +293,21 @@ public class UserConsoleApp {
     }
 
 
-    private static <T> void updateField(String label, Consumer<T> setter, InputParser<T> parser) {
+    /**
+     * Цикл ввода с валидацией для сеттера
+     *
+     * @param label  сообщение пользователю
+     * @param setter необходимый сеттер
+     * @param parser валидатор
+     * @param <R>    результат парсера для сеттера
+     */
+    private <R> void updateField(String label, Consumer<R> setter, ThrowingFunction<String, R> parser) {
         while (true) {
             try {
                 System.out.print(label);
                 String input = scanner.nextLine();
                 if (!input.isBlank()) {
-                    T value = parser.parse(input);
+                    R value = parser.apply(input);
                     setter.accept(value);
                 }
                 break;
@@ -278,15 +322,15 @@ public class UserConsoleApp {
      *
      * @param prompt сообщение пользователю
      * @param parser валидатор
-     * @param <T>    стринга для ввода
-     * @return валидированное значение int или String
+     * @param <R>    результат парсинга
+     * @return валидированное значение, тип - в зависимости от парсера
      */
-    public static <T> T inputCycle(String prompt, InputParser<T> parser) {
+    public <R> R inputCycle(String prompt, ThrowingFunction<String, R> parser) {
         while (true) {
             try {
                 System.out.print(prompt);
                 String input = scanner.nextLine();
-                return parser.parse(input);
+                return parser.apply(input);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

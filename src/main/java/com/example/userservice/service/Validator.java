@@ -3,34 +3,51 @@ package com.example.userservice.service;
 import com.example.userservice.app.ThrowingFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 
 /**
- * Утилитный класс для валидации всего на свете
+ * Класс для валидации всего на свете
  *
  * @author vmarakushin
  * @version 2.0
  */
+@Service
 public class Validator {
 
-    private static final Logger logger = LoggerFactory.getLogger(Validator.class);
-    private static final String validatorMessage = "Ошибка валидации ввода: ";
+    private final Logger logger = LoggerFactory.getLogger(Validator.class);
+    private final String validatorMessage = "Ошибка валидации: ";
 
-    private Validator() {
+    public Validator() {
     }
 
     /**
      * Валидирует int
      * Отсекает неправильный тип данных
      *
-     * @return валидированное целочисленное значение
+     * @return валидированное int значение
      */
-    public static int validInt(String input) {
+    public int validInt(String input) {
         try {
             return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
+        } catch (IllegalArgumentException e) {
             logger.warn(validatorMessage + e.getMessage());
-            throw new IllegalArgumentException("Введите целое число!");
+            throw new IllegalArgumentException("Необходимо целое число.");
+        }
+    }
+
+    /**
+     * Валидирует long
+     * Отсекает неправильный тип данных
+     *
+     * @return валидированное long значение
+     */
+    public long validLong(String input) {
+        try {
+            return Long.parseLong(input);
+        } catch (IllegalArgumentException e) {
+            logger.warn(validatorMessage + e.getMessage());
+            throw new IllegalArgumentException("Необходимо целое число.");
         }
     }
 
@@ -42,10 +59,10 @@ public class Validator {
      * @param parser ссылка на String метод-валидатор
      * @return валидированная строка
      */
-    public static String validStringCreate(String input, ThrowingFunction<String> parser) throws Exception {
+    public String validStringCreate(String input, ThrowingFunction<String, String> parser) {
         try {
             return parser.apply(input);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             logger.warn(validatorMessage + e.getMessage());
             throw e;
         }
@@ -58,11 +75,28 @@ public class Validator {
      * @param parser ссылка на Int метод-валидатор
      * @return валидированный int
      */
-    public static int validIntCreate(String input, ThrowingFunction<Integer> parser) throws Exception {
+    public int validIntCreate(String input, ThrowingFunction<Integer, Integer> parser) {
         try {
             int number = validInt(input);
             return parser.apply(number);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            logger.warn(validatorMessage + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Валидатор данных для создания пользователя для возраста
+     *
+     * @param input  - String для валидации
+     * @param parser ссылка на long метод-валидатор
+     * @return валидированный long
+     */
+    public long validIdCreate(String input, ThrowingFunction<Long, Long> parser) {
+        try {
+            long number = validLong(input);
+            return parser.apply(number);
+        } catch (RuntimeException e) {
             logger.warn(validatorMessage + e.getMessage());
             throw e;
         }
@@ -75,7 +109,7 @@ public class Validator {
      * @param name строка для валидации
      * @return валидированное имя
      */
-    public static String name(String name) {
+    public String name(String name) {
         if (!name.matches("[a-zA-Zа-яА-ЯёЁ\\-\\s]+$"))
             throw new IllegalArgumentException("Имя может содержать только буквы, дефис и пробел");
         return name;
@@ -87,7 +121,7 @@ public class Validator {
      * @param surname строка для валидации
      * @return валидированная фамилия
      */
-    public static String surname(String surname) {
+    public String surname(String surname) {
         if (!surname.matches("[a-zA-Zа-яА-ЯёЁ\\-\\s]+$"))
             throw new IllegalArgumentException("Фамилия может содержать только буквы, дефис и пробел");
         return surname;
@@ -99,7 +133,7 @@ public class Validator {
      * @param age число для валидации
      * @return валидированный возраст
      */
-    public static int age(int age) {
+    public int age(int age) {
         if (age < 1 || age > 150)
             throw new IllegalArgumentException("Возраст от 1 до 150");
         return age;
@@ -111,7 +145,7 @@ public class Validator {
      * @param phone строка для валидации
      * @return валидированный телефон
      */
-    public static String phone(String phone) {
+    public String phone(String phone) {
         if (!phone.matches("^\\+\\d{11}$"))
             throw new IllegalArgumentException("Телефон должен соответствовать формату , например +79992225566");
         return phone;
@@ -123,12 +157,23 @@ public class Validator {
      * @param email строка для валидации
      * @return валидированный емейл
      */
-    public static String email(String email) {
+    public String email(String email) {
         if (!email.matches("^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]{3,}\\.[a-zA-Z]{2,}$"))
             throw new IllegalArgumentException("Email должен соответствовать формату , например example@example.com");
         return email;
     }
 
+    /**
+     * Валидатор айди
+     *
+     * @param id long для валидации
+     * @return валидированный айди
+     */
+    public long id(long id) {
+        if (id < 1L)
+            throw new IllegalArgumentException("ID не может быть меньше 1");
+        return id;
+    }
 }
 
 

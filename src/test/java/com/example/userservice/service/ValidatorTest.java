@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Тесты для валидатора
  * @author vmarakushin
- * @version 1.1
+ * @version 1.2
  */
 public class ValidatorTest {
 
-
+    Validator validator = new Validator();
 
     @DisplayName("Проверка валидных имен")
     @ParameterizedTest
@@ -25,7 +25,7 @@ public class ValidatorTest {
             "Dennis"
     })
     public void validNameShouldPass(String name) {
-        assertEquals(name, Validator.name(name));
+        assertEquals(name, validator.name(name));
     }
 
     @DisplayName("Проверка невалидных имен")
@@ -37,7 +37,7 @@ public class ValidatorTest {
             ".:|{PYT0U_n3P3U:."
     })
     public void invalidNameShouldThrow(String name) {
-        assertThrows(IllegalArgumentException.class, () -> Validator.name(name));
+        assertThrows(IllegalArgumentException.class, () -> validator.name(name));
     }
 
     @DisplayName("Проверка валидных фамилий")
@@ -49,7 +49,7 @@ public class ValidatorTest {
             "Корсикова-Романова"
     })
     public void validSurnameShouldPass(String surname) {
-        assertEquals(surname, Validator.surname(surname));
+        assertEquals(surname, validator.surname(surname));
     }
 
 
@@ -62,21 +62,21 @@ public class ValidatorTest {
             "3-й раз замужем!!!"
     })
     public void invalidSurnameShouldThrow(String surname) {
-        assertThrows(IllegalArgumentException.class, () -> Validator.surname(surname));
+        assertThrows(IllegalArgumentException.class, () -> validator.surname(surname));
     }
 
     @DisplayName("Проверка валидных возрастов")
     @ParameterizedTest
     @ValueSource(ints = {18, 21, 32, 95})
     public void validAgeShouldPass(int age) {
-        assertEquals(age, Validator.age(age));
+        assertEquals(age, validator.age(age));
     }
 
     @DisplayName("Проверка невалидных возрастов")
     @ParameterizedTest
     @ValueSource(ints = {-122, -1000, 151, 100500})
     public void invalidAgeShouldThrow(int age) {
-        assertThrows(IllegalArgumentException.class, () -> Validator.age(age));
+        assertThrows(IllegalArgumentException.class, () -> validator.age(age));
     }
 
 
@@ -87,7 +87,7 @@ public class ValidatorTest {
             "+11111111111"
     })
     public void validPhoneNumberShouldPass(String phoneNumber) {
-        assertEquals(phoneNumber, Validator.phone(phoneNumber));
+        assertEquals(phoneNumber, validator.phone(phoneNumber));
     }
 
     @DisplayName("Проверка невалидных номеров")
@@ -99,7 +99,7 @@ public class ValidatorTest {
             "ДА Я УСТАЛ СЮДА УЖЕ ТЕЛЕФОН ВБИВАТЬ!!!" //замучили беднягу
     })
     public void invalidPhoneNumberShouldThrow(String phoneNumber) {
-        assertThrows(IllegalArgumentException.class, () -> Validator.phone(phoneNumber));
+        assertThrows(IllegalArgumentException.class, () -> validator.phone(phoneNumber));
     }
 
 
@@ -111,7 +111,7 @@ public class ValidatorTest {
             "my_email+filter@domain.org"
     })
     public void validEmailsShouldPass(String email) {
-        assertEquals(email, Validator.email(email));
+        assertEquals(email, validator.email(email));
     }
 
     @DisplayName("Проверка невалидных адресов эл. почты")
@@ -124,7 +124,7 @@ public class ValidatorTest {
             "user@.com"
     })
     public void invalidEmailsShouldThrow(String email) {
-        assertThrows(IllegalArgumentException.class, () -> Validator.email(email));
+        assertThrows(IllegalArgumentException.class, () -> validator.email(email));
     }
 
     @DisplayName("Проверка валидатора validInt")
@@ -132,7 +132,7 @@ public class ValidatorTest {
     @ValueSource(strings = {"1", "1000", "14423", "-16384"})
     public void validIntShouldPass(String input) {
         int expected = Integer.parseInt(input);
-        int actual = Validator.validInt(input);
+        int actual = validator.validInt(input);
         assertEquals(expected, actual);
     }
 
@@ -141,6 +141,39 @@ public class ValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"shafbgish", "  fsagf336==sv"})
     public void inValidIntShouldThrow(String input){
-        assertThrows(IllegalArgumentException.class, () -> Validator.validInt(input));
+        assertThrows(IllegalArgumentException.class, () -> validator.validInt(input));
+    }
+
+
+    @DisplayName("Проверка валидатора validLong")
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "1000", "14423", "-16384", "1000000"})
+    public void validLongShouldPass(String input) {
+        long expected = Long.parseLong(input);
+        long actual = validator.validLong(input);
+        assertEquals(expected, actual);
+    }
+
+    @DisplayName("Проверка невалидных для ValidLong")
+    @ParameterizedTest
+    @ValueSource(strings = {"shafbgish", "  fsagf336==sv", "1_000_000L"})
+    public void inValidLongShouldThrow(String input) {
+        assertThrows(IllegalArgumentException.class, () -> validator.validLong(input));
+    }
+
+    @DisplayName("Проверка валидных ID")
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "1500", "55672356"})
+    public void validIdShouldPass(String input) {
+        long expected = Long.parseLong(input);
+        long actual = validator.validIdCreate(input,validator::id);
+        assertEquals(expected, actual);
+    }
+
+    @DisplayName("Проверка невалидных ID")
+    @ParameterizedTest
+    @ValueSource(strings = {"-1", "-100","ID"})
+    public void invalidIdShouldThrow(String input) {
+        assertThrows(IllegalArgumentException.class, () -> validator.validIdCreate(input,validator::id));
     }
 }
