@@ -7,6 +7,7 @@ import com.example.userservice.exception.RepositoryException;
 import com.example.userservice.exception.UserServiceException;
 import com.example.userservice.service.UserService;
 import com.example.userservice.service.Validator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ public class UserConsoleApp implements CommandLineRunner {
     private final UserService userService;
 
 
-    public UserConsoleApp(UserService userService, Validator validator) {
+    public UserConsoleApp(@Qualifier("userServiceKafka")UserService userService, Validator validator) {
         this.userService = userService;
         this.scanner = new Scanner(System.in);
         this.validator = validator;
@@ -71,7 +72,7 @@ public class UserConsoleApp implements CommandLineRunner {
                 case 5 -> deleteUser();
                 case 0 -> {
                     System.out.println("До встречи!");
-                    return;
+                    System.exit(1);
                 }
                 default -> System.out.println("Неверный ввод. Попробуй снова.");
             }

@@ -1,4 +1,11 @@
-# UserConsoleService
+# UserServiceApp
+# Version 5.0
+## Главные изменения:
+- Отправка сообщений через Kafka для методов create() и delete()
+- Декоратор с доп. функционалом покрыт тестами
+- UserNotificationService для отправки сообщений по email, потребляет сообщения UserServiceApp
+- Rest API для отправки писем пользователям
+- Тесты consumer'а и controller'а
 # Version 4.0
 ## Главные изменения:
 - Реализованы необходимые модули Spring

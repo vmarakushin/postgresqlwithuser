@@ -1,7 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.4</version>
+        <relativePath/>
+    </parent>
 
     <groupId>com.vmarakushin</groupId>
     <artifactId>postgresqlwithuser</artifactId>
@@ -9,39 +17,43 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.release>17</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <java.version>17</java.version>
         <org.postgresql.version>42.7.7</org.postgresql.version>
-        <spring-boot.version>3.2.4</spring-boot.version>
         <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
-        <org.junit.platform.version>1.0.0</org.junit.platform.version>
         <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
         <org.mockito.core.version>4.11.0</org.mockito.core.version>
         <org.testcontainers.version>1.19.7</org.testcontainers.version>
-        <org.slf4j.simple.version>2.0.9</org.slf4j.simple.version>
+        <org.slf4j.version>2.0.12</org.slf4j.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
-        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
         <com.h2database.version>2.2.224</com.h2database.version>
-        <spring.boot.jdbc.version>3.2.5</spring.boot.jdbc.version>
     </properties>
 
     <dependencies>
 
 
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
 
         <dependency>
@@ -65,8 +77,10 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin.version}</version>
+                    <version>3.11.0</version>
                     <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                         <annotationProcessorPaths>
                             <path>
                                 <groupId>org.projectlombok</groupId>
@@ -76,6 +90,7 @@
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
+
 
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -87,28 +102,6 @@
     </build>
 
     <profiles>
-
-
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${maven.surefire.plugin.version}</version>
-                        <configuration>
-                            <skipTests>true</skipTests>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-
         <profile>
             <id>test</id>
             <activation>
@@ -120,6 +113,12 @@
 
             <dependencies>
                 <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-test</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
                     <groupId>org.junit.jupiter</groupId>
                     <artifactId>junit-jupiter-engine</artifactId>
                     <version>${org.junit.jupiter.version}</version>
@@ -130,13 +129,6 @@
                     <groupId>org.junit.jupiter</groupId>
                     <artifactId>junit-jupiter-params</artifactId>
                     <version>${org.junit.jupiter.version}</version>
-                    <scope>test</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-test</artifactId>
-                    <version>${spring-boot.version}</version>
                     <scope>test</scope>
                 </dependency>
 
@@ -178,12 +170,17 @@
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-jdbc</artifactId>
-                    <version>${spring.boot.jdbc.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-test</artifactId>
+                    <version>6.1.5</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
-
     </profiles>
 
 </project>

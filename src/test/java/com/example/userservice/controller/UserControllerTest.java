@@ -5,7 +5,7 @@ import com.example.userservice.dto.RequestUserDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.exception.RepositoryException;
 import com.example.userservice.exception.UserServiceException;
-import com.example.userservice.service.UserService;
+import com.example.userservice.service.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private ObjectMapper objectMapper;

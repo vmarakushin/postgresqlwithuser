@@ -4,36 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="VERSION: 3.7&#10;Фикс ДЗ 3">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/UserServiceApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dto/RequestUserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/RepositoryException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/UserServiceException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/controller/UserControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/mapper/UserMapperTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/repository/UserRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/UserServiceTest.java" afterDir="false" />
+    <list default="true" id="2e990ac0-c5ee-4e33-add7-2fc8b51b6d3a" name="Changes" comment="VERSION: 4&#10;Ответ ДЗ 4">
+      <change afterPath="$PROJECT_DIR$/postgres-custom/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/kafka/UserEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/kafka/UserEventProducer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/UserServiceKafka.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/UserServiceKafkaTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postgres-custom/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postgres-custom/build.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/postgres-custom/build.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/InputParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/ThrowingFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/UserServiceApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/UserServiceApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/app/UserConsoleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/config/HibernateUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/TransactionalExecutor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/dao/UserDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/DaoException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/fabrics/UserFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/Validator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/dao/UserDAOTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/RepositoryException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/RepositoryException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/UserServiceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/exception/UserServiceException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/userservice/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/controller/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/controller/UserControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/mapper/UserMapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/mapper/UserMapperTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/repository/UserRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/repository/UserRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/UserServiceImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/ValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/userservice/service/ValidatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,6 +107,14 @@
     "JUnit.UserRepositoryTest.testGetUser.executor": "Run",
     "JUnit.UserRepositoryTest.testSaveUser.executor": "Run",
     "JUnit.UserRepositoryTest.testUpdateUser.executor": "Run",
+    "JUnit.UserServiceKafkaTest.executor": "Run",
+    "JUnit.UserServiceKafkaTest.testCreateUserException.executor": "Run",
+    "JUnit.UserServiceKafkaTest.testDeleteUserException.executor": "Run",
+    "JUnit.UserServiceKafkaTest.testDeleteUserNotFound.executor": "Run",
+    "JUnit.UserServiceKafkaTest.testExceptionCreateUser.executor": "Run",
+    "JUnit.UserServiceKafkaTest.testSuccessCreateUser.executor": "Run",
+    "JUnit.UserServiceKafkaTest.testSuccessDeleteUser.executor": "Run",
+    "JUnit.UserServiceTest.executor": "Run",
     "JUnit.UserServiceTest.testCreateInvalidUser.executor": "Run",
     "JUnit.UserServiceTest.testCreateNonUniqueUser.executor": "Run",
     "JUnit.UserServiceTest.testCreateUserFromNonNullId.executor": "Run",
@@ -143,7 +144,10 @@
     "JUnit.ValidatorTest.validNameShouldPass.executor": "Run",
     "Maven.postgresqlwithuser [clean].executor": "Run",
     "Maven.postgresqlwithuser [compile].executor": "Run",
+    "Maven.postgresqlwithuser [dependency:tree,|...].executor": "Run",
+    "Maven.postgresqlwithuser [dependency:tree].executor": "Run",
     "Maven.postgresqlwithuser [install].executor": "Run",
+    "Maven.postgresqlwithuser [mvn,dependency:tree...].executor": "Run",
     "Maven.postgresqlwithuser [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
     "Maven.postgresqlwithuser [org.apache.maven.plugins:maven-compiler-plugin:3.10.1:compile].executor": "Run",
     "Maven.postgresqlwithuser [org.apache.maven.plugins:maven-compiler-plugin:3.10.1:help].executor": "Run",
@@ -171,7 +175,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "settings.editor.selected.configurable": "project.propCompiler",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -182,8 +186,8 @@
       <recent name="C:\Users\VLADLEN\IdeaProjects\postgresqlwithuser\src\main\java" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.example.userservice" />
       <recent name="com.example.userservice.service" />
+      <recent name="com.example.userservice" />
       <recent name="mypackage" />
       <recent name="" />
     </key>
@@ -191,83 +195,87 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn install" />
+      <command value="mvn dependency:tree | grep slf4j" />
+      <command value="mvn mvn dependency:tree | Select-String slf4j" />
+      <command value="mvn dependency:tree | Select-String slf4j" />
+      <command value="mvn dependency:tree" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserControllerTest">
-    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.UserServiceKafkaTest">
+    <configuration name="UserServiceKafkaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.controller.*" />
+          <option name="PATTERN" value="com.example.userservice.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.service.UserServiceKafkaTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.testGetAllShouldReturn500RepositoryException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceKafkaTest.testCreateUserException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.controller.*" />
+          <option name="PATTERN" value="com.example.userservice.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
-      <option name="METHOD_NAME" value="testGetAllShouldReturn500RepositoryException" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.service.UserServiceKafkaTest" />
+      <option name="METHOD_NAME" value="testCreateUserException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.testGetByIdShouldReturn200UserById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceKafkaTest.testDeleteUserException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.controller.*" />
+          <option name="PATTERN" value="com.example.userservice.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
-      <option name="METHOD_NAME" value="testGetByIdShouldReturn200UserById" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.service.UserServiceKafkaTest" />
+      <option name="METHOD_NAME" value="testDeleteUserException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.testPutShouldReturn400DifferentIDs" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceKafkaTest.testDeleteUserNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.controller.*" />
+          <option name="PATTERN" value="com.example.userservice.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
-      <option name="METHOD_NAME" value="testPutShouldReturn400DifferentIDs" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.service.UserServiceKafkaTest" />
+      <option name="METHOD_NAME" value="testDeleteUserNotFound" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.testShouldReturn400UserServiceException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceKafkaTest.testSuccessDeleteUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgresqlwithuser" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.userservice.controller.*" />
+          <option name="PATTERN" value="com.example.userservice.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.userservice.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.userservice.controller.UserControllerTest" />
-      <option name="METHOD_NAME" value="testShouldReturn400UserServiceException" />
+      <option name="PACKAGE_NAME" value="com.example.userservice.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.userservice.service.UserServiceKafkaTest" />
+      <option name="METHOD_NAME" value="testSuccessDeleteUser" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -275,11 +283,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserControllerTest" />
-        <item itemvalue="JUnit.UserControllerTest.testGetAllShouldReturn500RepositoryException" />
-        <item itemvalue="JUnit.UserControllerTest.testPutShouldReturn400DifferentIDs" />
-        <item itemvalue="JUnit.UserControllerTest.testGetByIdShouldReturn200UserById" />
-        <item itemvalue="JUnit.UserControllerTest.testShouldReturn400UserServiceException" />
+        <item itemvalue="JUnit.UserServiceKafkaTest" />
+        <item itemvalue="JUnit.UserServiceKafkaTest.testDeleteUserException" />
+        <item itemvalue="JUnit.UserServiceKafkaTest.testCreateUserException" />
+        <item itemvalue="JUnit.UserServiceKafkaTest.testDeleteUserNotFound" />
+        <item itemvalue="JUnit.UserServiceKafkaTest.testSuccessDeleteUser" />
       </list>
     </recent_temporary>
   </component>
@@ -348,7 +356,12 @@
       <workItem from="1752060976491" duration="39947000" />
       <workItem from="1752103674327" duration="46000" />
       <workItem from="1752164509207" duration="1196000" />
-      <workItem from="1752165717545" duration="10212000" />
+      <workItem from="1752165717545" duration="11197000" />
+      <workItem from="1752512362382" duration="3000" />
+      <workItem from="1752583737974" duration="2449000" />
+      <workItem from="1752586195990" duration="1043000" />
+      <workItem from="1752587256082" duration="7531000" />
+      <workItem from="1752594901766" duration="17559000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -414,7 +427,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751989428326</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="VERSION: 4&#10;Ответ ДЗ 4">
+      <option name="closed" value="true" />
+      <created>1752177309792</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1752177309792</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,7 +459,8 @@
     <MESSAGE value="VERSION: 2.1&#10;Пофиксил замечания по ДЗ 2" />
     <MESSAGE value="VERSION: 3.0&#10;Ответ на ДЗ 3" />
     <MESSAGE value="VERSION: 3.7&#10;Фикс ДЗ 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="VERSION: 3.7&#10;Фикс ДЗ 3" />
+    <MESSAGE value="VERSION: 4&#10;Ответ ДЗ 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="VERSION: 4&#10;Ответ ДЗ 4" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

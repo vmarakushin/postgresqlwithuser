@@ -4,7 +4,7 @@ import com.example.userservice.dto.RequestUserDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.exception.RepositoryException;
 import com.example.userservice.exception.UserServiceException;
-import com.example.userservice.service.UserService;
+import com.example.userservice.service.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

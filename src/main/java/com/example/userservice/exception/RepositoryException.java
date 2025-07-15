@@ -1,10 +1,12 @@
 package com.example.userservice.exception;
 
 
+import com.example.userservice.service.UserServiceImpl;
+
 /**
  * Unchecked-исключение
- * Используется {@link com.example.userservice.service.UserService}
- * Говорит наружу абстрактно об ошибке работы с бд
+ * Используется {@link UserServiceImpl}
+ * Говорит наружу абстрактно об ошибке работы с бд или ошибке Kafka
  *
  * @author vmarakushin
  * @version 1.0

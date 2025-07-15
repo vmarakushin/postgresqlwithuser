@@ -1,9 +1,11 @@
 package com.example.userservice.exception;
 
 
+import com.example.userservice.service.UserServiceImpl;
+
 /**
  * Unchecked-исключение
- * Используется {@link com.example.userservice.service.UserService}
+ * Используется {@link UserServiceImpl}
  * Говорит наружу о нарушении бизнес-правил (уникальность email или phone)
  *
  * @author vmarakushin

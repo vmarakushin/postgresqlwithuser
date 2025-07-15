@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 /**
- * Точка входа в Spring Boot приложение
+ * Точка входа в UserService приложение
  *
  * @author vmarakushin
- * @version 4.0
+ * @version 5.0
  */
 @SpringBootApplication
 public class UserServiceApp {

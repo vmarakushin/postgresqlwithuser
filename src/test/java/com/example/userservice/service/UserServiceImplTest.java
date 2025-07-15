@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 
 import java.util.Date;
@@ -34,7 +36,7 @@ import static org.mockito.Mockito.*;
  * @version 1.0
  */
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -46,7 +48,7 @@ public class UserServiceTest {
     private UserMapper userMapper;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
 
     @DisplayName("Тест создания валидного юзера")
