@@ -6,7 +6,7 @@ import com.example.userservice.service.UserServiceImpl;
 /**
  * Unchecked-исключение
  * Используется {@link UserServiceImpl}
- * Говорит наружу абстрактно об ошибке работы с бд или ошибке Kafka
+ * Говорит наружу абстрактно об ошибке работы с БД
  *
  * @author vmarakushin
  * @version 1.0

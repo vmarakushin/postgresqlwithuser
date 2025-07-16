@@ -1,21 +1,37 @@
 package com.example.userservice.service;
 
+import com.example.userservice.dto.UserDTO;
+import com.example.userservice.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 
 /**
  * Тесты для валидатора
  * @author vmarakushin
- * @version 1.2
+ * @version 2.0
  */
+@ExtendWith(MockitoExtension.class)
 public class ValidatorTest {
 
-    Validator validator = new Validator();
+    @Mock
+    UserRepository userRepository;
+
+    @InjectMocks
+    Validator validator;
 
     @DisplayName("Проверка валидных имен")
     @ParameterizedTest
@@ -172,8 +188,96 @@ public class ValidatorTest {
 
     @DisplayName("Проверка невалидных ID")
     @ParameterizedTest
-    @ValueSource(strings = {"-1", "-100","ID"})
+    @ValueSource(strings = {"-1", "-100","ID", "0"})
     public void invalidIdShouldThrow(String input) {
         assertThrows(IllegalArgumentException.class, () -> validator.validIdCreate(input,validator::id));
     }
+
+    @DisplayName("Полная валидация ид !=0")
+    @ParameterizedTest
+    @ValueSource(longs = {1, 123, -121})
+    public void createUserNot0Id(long input){
+        UserDTO dto = new UserDTO(
+                input,
+                "Василий",
+                "Пупкин",
+                32,
+                "+79992221122",
+                "vasiliy@pupkin.com",
+                0,
+                new Date());
+        assertThrows(IllegalArgumentException.class,() -> validator.fullValidation(dto, Validator.Scope.CREATE));
+    }
+
+    @DisplayName("Полная валидация ид =0")
+    @Test
+    public void createUser0Id(){
+        UserDTO dto = new UserDTO(
+                0,
+                "Василий",
+                "Пупкин",
+                32,
+                "+79992221122",
+                "vasiliy@pupkin.com",
+                0,
+                new Date());
+
+        doReturn(false).when(userRepository).existsByEmailAndIdNot(dto.getEmail(), dto.getId());
+        doReturn(false).when(userRepository).existsByPhoneAndIdNot(dto.getPhone(), dto.getId());
+
+        assertDoesNotThrow(() -> validator.fullValidation(dto, Validator.Scope.CREATE));
+    }
+
+    @DisplayName("Полная валидация при неуникальном email")
+    @Test
+    public void createUserNotUniqueEmail(){
+        UserDTO dto = new UserDTO(
+                0,
+                "Василий",
+                "Пупкин",
+                32,
+                "+79992221122",
+                "vasiliy@pupkin.com",
+                0,
+                new Date());
+
+        doReturn(true).when(userRepository).existsByEmailAndIdNot(dto.getEmail(), dto.getId());
+        assertThrows(IllegalArgumentException.class,() -> validator.fullValidation(dto, Validator.Scope.CREATE));
+    }
+
+    @DisplayName("Полная валидация ид =0")
+    @Test
+    public void createUserNotUniquePhone(){
+        UserDTO dto = new UserDTO(
+                0,
+                "Василий",
+                "Пупкин",
+                32,
+                "+79992221122",
+                "vasiliy@pupkin.com",
+                0,
+                new Date());
+
+        doReturn(false).when(userRepository).existsByEmailAndIdNot(dto.getEmail(), dto.getId());
+        doReturn(true).when(userRepository).existsByPhoneAndIdNot(dto.getPhone(), dto.getId());
+
+        assertThrows(IllegalArgumentException.class,() -> validator.fullValidation(dto, Validator.Scope.CREATE));
+    }
+
+    @DisplayName("Полная валидация обновление ид некорректен")
+    @ParameterizedTest
+    @ValueSource(longs = {0, -32111, -121})
+    public void updateUserNotCorrectID(long input){
+        UserDTO dto = new UserDTO(
+                input,
+                "Василий",
+                "Пупкин",
+                32,
+                "+79992221122",
+                "vasiliy@pupkin.com",
+                0,
+                new Date());
+        assertThrows(IllegalArgumentException.class,() -> validator.fullValidation(dto, Validator.Scope.UPDATE));
+    }
+
 }

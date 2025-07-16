@@ -4,7 +4,6 @@ package com.example.userservice.service;
 import com.example.userservice.dto.RequestUserDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.exception.RepositoryException;
-import com.example.userservice.exception.UserServiceException;
 import com.example.userservice.mapper.UserMapper;
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  * Сервис для общения с базой данных
  *
  * @author vmarakushin
- * @version 1.0
+ * @version 2.0
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final Validator validator;
     private final Logger logger;
+
+    private static final String REPOSITORY_EXCEPTION_MESSAGE = "Ошибка при обращении к репозиторию.";
 
 
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, Validator validator) {
@@ -51,15 +52,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void createUser(UserDTO dto) {
 
-        validation(dto, Scope.CREATE);
+        validator.fullValidation(dto, Validator.Scope.CREATE);
 
         User user = userMapper.toEntity(dto);
         try {
             userRepository.save(user);
-
         } catch (Exception e) {
-            logger.error("Ошибка репозитория. \n", e);
-            throw new RepositoryException("Ошибка при обращении к репозиторию.");
+            logger.error(REPOSITORY_EXCEPTION_MESSAGE, e);
+            throw new RepositoryException(REPOSITORY_EXCEPTION_MESSAGE);
         }
 
     }
@@ -75,15 +75,15 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public Optional<UserDTO> getUserById(RequestUserDTO dto) {
 
-        validation(dto);
+        validator.id(dto.getId());
 
         try {
             return userRepository.findById(dto.getId())
                     .map(userMapper::toDto);
 
         } catch (Exception e) {
-            logger.error("Ошибка репозитория. \n", e);
-            throw new RepositoryException("Ошибка при обращении к репозиторию.");
+            logger.error(REPOSITORY_EXCEPTION_MESSAGE, e);
+            throw new RepositoryException(REPOSITORY_EXCEPTION_MESSAGE);
         }
 
     }
@@ -103,8 +103,8 @@ public class UserServiceImpl implements UserService {
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
-            logger.error("Ошибка репозитория. \n", e);
-            throw new RepositoryException("Ошибка при обращении к репозиторию.");
+            logger.error(REPOSITORY_EXCEPTION_MESSAGE, e);
+            throw new RepositoryException(REPOSITORY_EXCEPTION_MESSAGE);
         }
     }
 
@@ -119,14 +119,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(UserDTO dto) {
 
-        validation(dto, Scope.UPDATE);
+        validator.fullValidation(dto, Validator.Scope.UPDATE);
 
         try {
             userRepository.save(userMapper.toEntity(dto));
             userRepository.flush();
         } catch (Exception e) {
-            logger.error("Ошибка репозитория. \n", e);
-            throw new RepositoryException("Ошибка при обращении к репозиторию.");
+            logger.error(REPOSITORY_EXCEPTION_MESSAGE, e);
+            throw new RepositoryException(REPOSITORY_EXCEPTION_MESSAGE);
         }
 
     }
@@ -141,95 +141,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(RequestUserDTO dto) {
 
-        validation(dto);
+        validator.id(dto.getId());
 
         try {
             userRepository.deleteById(dto.getId());
             userRepository.flush();
         } catch (Exception e) {
-            logger.error("Ошибка репозитория. \n", e);
-            throw new RepositoryException("Ошибка при обращении к репозиторию.");
-        }
-
-
-    }
-
-
-    /**
-     * Валидация для ID при получении и удалении пользователя
-     *
-     * @param dto UserRequestDTO с ID
-     */
-    private void validation(RequestUserDTO dto) {
-        if (dto.getId() < 1L) {
-            String message = "Id должен быть больше 0";
-            logger.warn(message);
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-
-    private enum Scope {
-        CREATE, UPDATE
-    }
-
-    /**
-     * Валидация данных
-     * Scope.CREATE - проверка ID == 0 при создании
-     * Scope.UPDATE - проверка ID > 0 при обновлении
-     * Проверка полей общая для обоих случаев
-     *
-     * @param dto   UserDTO с данными
-     * @param scope применение метода
-     */
-    private void validation(UserDTO dto, Scope scope) {
-
-
-        switch (scope) {
-
-
-            case CREATE -> {
-                if (dto.getId() != 0L) {
-                    String message = "Id должен быть равен 0";
-                    logger.warn(message);
-                    throw new IllegalArgumentException(message);
-                }
-            }
-
-
-            case UPDATE -> {
-                if (dto.getId() < 1L) {
-                    String message = "Id должен быть больше 0";
-                    logger.warn(message);
-                    throw new IllegalArgumentException(message);
-                }
-            }
-        }
-
-
-        try {
-            validator.name(dto.getName());
-            validator.surname(dto.getSurname());
-            validator.age(dto.getAge());
-            validator.phone(dto.getPhone());
-            validator.email(dto.getEmail());
-        } catch (IllegalArgumentException e) {
-            logger.warn(e.getMessage());
-            throw e;
-        }
-
-
-        if (userRepository.existsByEmailAndIdNot(dto.getEmail(), dto.getId())) {
-            String message = "Этот email уже используется!";
-            logger.warn(message);
-            throw new UserServiceException(message);
-        }
-
-
-        if (userRepository.existsByPhoneAndIdNot(dto.getPhone(), dto.getId())) {
-            String message = "Этот телефон уже используется!";
-            logger.warn(message);
-            throw new UserServiceException(message);
+            logger.error(REPOSITORY_EXCEPTION_MESSAGE, e);
+            throw new RepositoryException(REPOSITORY_EXCEPTION_MESSAGE);
         }
     }
 }

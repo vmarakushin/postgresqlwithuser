@@ -18,6 +18,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+
+/**
+ * Тесты для декоратора с кафкой
+ *
+ * @author vmarakushin
+ * @version 1.0
+ */
 @ExtendWith(MockitoExtension.class)
 public class UserServiceKafkaTest {
 

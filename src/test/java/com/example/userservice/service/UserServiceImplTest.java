@@ -2,6 +2,7 @@ package com.example.userservice.service;
 
 import com.example.userservice.dto.RequestUserDTO;
 import com.example.userservice.dto.UserDTO;
+import com.example.userservice.exception.RepositoryException;
 import com.example.userservice.exception.UserServiceException;
 import com.example.userservice.mapper.UserMapper;
 import com.example.userservice.model.User;
@@ -28,12 +29,11 @@ import static org.mockito.Mockito.*;
 
 /**
  * Тесты Service-слоя
- * Не писал тесты для метода validation, так как
- * он оттестирован в составе остальных методов,
- * а мокать методы тестируемого класса - антипаттерн
+ * Стоило только убрать нарушение SRP, так сразу все тестируется легко и просто
+ * Можно либо пройти оттестированный валидатор, либо не пройти
  *
  * @author vmarakushin
- * @version 1.0
+ * @version 2.0
  */
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
@@ -76,13 +76,10 @@ public class UserServiceImplTest {
                 .money(386L)
                 .build();
 
-        when(userMapper.toEntity(userDTO)).thenReturn(mappedUser);
-        when(validator.name("Vasya")).thenReturn("Vasya");
-        when(validator.surname("Petrov")).thenReturn("Petrov");
-        when(validator.age(32)).thenReturn(32);
-        when(validator.phone("+79991112233")).thenReturn("+79991112233");
-        when(validator.email("vasya@petrov.com")).thenReturn("vasya@petrov.com");
 
+        doNothing().when(validator).fullValidation(userDTO, Validator.Scope.CREATE);
+
+        doReturn(mappedUser).when(userMapper).toEntity(userDTO);
 
         userService.createUser(userDTO);
 
@@ -90,7 +87,7 @@ public class UserServiceImplTest {
     }
 
 
-    @DisplayName("Тест создания невалидного юзера")
+    @DisplayName("Тест создания юзера, не прошедшего валидатор")
     @Test
     public void testCreateInvalidUser() {
 
@@ -105,61 +102,18 @@ public class UserServiceImplTest {
                 new Date()
         );
 
-        when(validator.name("Vasya")).thenReturn("Vasya");
-        when(validator.surname("6PyTAJLbHblu")).thenThrow(new IllegalArgumentException("Нифига ты не брутальный"));
+        doThrow(IllegalArgumentException.class).when(validator).fullValidation(userDTO, Validator.Scope.CREATE);
 
         assertThrows(IllegalArgumentException.class, () -> userService.createUser(userDTO));
     }
 
-    @DisplayName("Тест создания неуникального юзера")
-    @Test
-    public void testCreateNonUniqueUser() {
-        UserDTO userDTO = new UserDTO(
-                0L,
-                "Vasya",
-                "Petrov",
-                32,
-                "+79991112233",
-                "vasya@petrov.com",
-                386L,
-                new Date()
-        );
-
-
-        when(validator.name("Vasya")).thenReturn("Vasya");
-        when(validator.surname("Petrov")).thenReturn("Petrov");
-        when(validator.age(32)).thenReturn(32);
-        when(validator.phone("+79991112233")).thenReturn("+79991112233");
-        when(validator.email("vasya@petrov.com")).thenReturn("vasya@petrov.com");
-        when(userRepository.existsByEmailAndIdNot("vasya@petrov.com", 0L)).thenReturn(true);
-
-
-        assertThrows(UserServiceException.class, () -> userService.createUser(userDTO));
-    }
-
-
-    @DisplayName("Тест создания из ДТО с ID != 0")
-    @Test
-    public void testCreateUserFromNonNullId() {
-        UserDTO userDTO = new UserDTO(
-                1L,
-                "Vasya",
-                "Petrov",
-                32,
-                "+79991112233",
-                "vasya@petrov.com",
-                386L,
-                new Date()
-        );
-
-        assertThrows(IllegalArgumentException.class, () -> userService.createUser(userDTO));
-    }
 
     @DisplayName("Тест получения юзера при валидном ID")
     @ParameterizedTest
     @ValueSource(ints = {1, 100, 2500})
     public void testValidGetUserById(int id) {
         RequestUserDTO userDTO = new RequestUserDTO(id);
+        doReturn(userDTO.getId()).when(validator).id(userDTO.getId());
         userService.getUserById(userDTO);
         verify(userRepository).findById(userDTO.getId());
     }
@@ -169,6 +123,7 @@ public class UserServiceImplTest {
     @ValueSource(ints = {0, -1, -100, -12345})
     public void testInvalidGetUserById(int id) {
         RequestUserDTO userDTO = new RequestUserDTO(id);
+        doThrow(IllegalArgumentException.class).when(validator).id(userDTO.getId());
         assertThrows(IllegalArgumentException.class, () -> userService.getUserById(userDTO));
     }
 
@@ -205,9 +160,12 @@ public class UserServiceImplTest {
                 .money(386L)
                 .build();
 
+
+        doNothing().when(validator).fullValidation(userDTO, Validator.Scope.UPDATE);
         when(userMapper.toEntity(userDTO)).thenReturn(userEntity);
         userService.updateUser(userDTO);
         verify(userRepository).save(userEntity);
+        verify(userRepository).flush();
     }
 
     @DisplayName("Тест обновления пользователя при невалидном ID")
@@ -224,6 +182,7 @@ public class UserServiceImplTest {
                 386L,
                 new Date()
         );
+        doThrow(IllegalArgumentException.class).when(validator).fullValidation(userDTO, Validator.Scope.UPDATE);
         assertThrows(IllegalArgumentException.class, () -> userService.updateUser(userDTO));
     }
 
@@ -232,8 +191,10 @@ public class UserServiceImplTest {
     @ValueSource(ints = {1, 25, 265, 165356})
     public void testValidDeleteUser(int id) {
         RequestUserDTO userDTO = new RequestUserDTO(id);
+        doReturn(userDTO.getId()).when(validator).id(userDTO.getId());
         userService.deleteUser(userDTO);
         verify(userRepository).deleteById(userDTO.getId());
+        verify(userRepository).flush();
     }
 
     @DisplayName("Тест удаления пользователя при невалидном ID")
@@ -241,6 +202,101 @@ public class UserServiceImplTest {
     @ValueSource(ints = {0, -1, -200, -4142152})
     public void testInvalidDeleteUser(int id) {
         RequestUserDTO userDTO = new RequestUserDTO(id);
+        doThrow(IllegalArgumentException.class).when(validator).id(userDTO.getId());
         assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(userDTO));
     }
+
+    @DisplayName("Тест создание исключение репо")
+    @Test
+    public void testCreateUserRepoException() {
+
+        UserDTO userDTO = new UserDTO(
+                0L,
+                "Vasya",
+                "Petrov",
+                32,
+                "+79991112233",
+                "vasya@petrov.com",
+                386L,
+                new Date()
+        );
+
+        User mappedUser = User.builder()
+                .id(0L)
+                .name("Vasya")
+                .surname("Petrov")
+                .age(32)
+                .phone("+79991112233")
+                .email("vasya@petrov.com")
+                .money(386L)
+                .build();
+
+
+        doNothing().when(validator).fullValidation(userDTO, Validator.Scope.CREATE);
+
+        doReturn(mappedUser).when(userMapper).toEntity(userDTO);
+
+        userService.createUser(userDTO);
+
+        doThrow(RuntimeException.class).when(userRepository).save(mappedUser);
+        assertThrows(RepositoryException.class, () -> userService.createUser(userDTO));
+    }
+
+
+    @DisplayName("Тест получения юзера исключение репо")
+    @Test
+    public void testGetUserByIdRepoException() {
+        RequestUserDTO userDTO = new RequestUserDTO(1);
+        doReturn(userDTO.getId()).when(validator).id(userDTO.getId());
+        doThrow(RuntimeException.class).when(userRepository).findById(userDTO.getId());
+        assertThrows(RepositoryException.class, () -> userService.getUserById(userDTO));
+    }
+
+    @DisplayName("Тест получения всех юзеров исключение репо")
+    @Test
+    public void testGetAllUsersRepoException() {
+        doThrow(RuntimeException.class).when(userRepository).findAll();
+        assertThrows(RepositoryException.class, () -> userService.getAllUsers());
+    }
+
+    @DisplayName("Тест обновления исключение репо")
+    @Test
+    public void testUpdateUserRepoException() {
+        UserDTO userDTO = new UserDTO(
+                0L,
+                "Vasya",
+                "Petrov",
+                32,
+                "+79991112233",
+                "vasya@petrov.com",
+                386L,
+                new Date()
+        );
+
+        User mappedUser = User.builder()
+                .id(0L)
+                .name("Vasya")
+                .surname("Petrov")
+                .age(32)
+                .phone("+79991112233")
+                .email("vasya@petrov.com")
+                .money(386L)
+                .build();
+
+        doNothing().when(validator).fullValidation(userDTO, Validator.Scope.UPDATE);
+        doReturn(mappedUser).when(userMapper).toEntity(userDTO);
+
+        doThrow(RuntimeException.class).when(userRepository).save(mappedUser);
+        assertThrows(RepositoryException.class, () -> userService.updateUser(userDTO));
+    }
+
+    @DisplayName("Тест удаления исключение репо")
+    @Test
+    public void testDeleteUserRepoException() {
+        RequestUserDTO userDTO = new RequestUserDTO(1);
+        doReturn(userDTO.getId()).when(validator).id(userDTO.getId());
+        doThrow(RuntimeException.class).when(userRepository).deleteById(userDTO.getId());
+        assertThrows(RepositoryException.class, () -> userService.deleteUser(userDTO));
+    }
+
 }

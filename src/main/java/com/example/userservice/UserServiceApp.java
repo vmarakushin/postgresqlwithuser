@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Точка входа в UserService приложение
  *
  * @author vmarakushin
- * @version 5.0
+ * @version 6.0
  */
 @SpringBootApplication
 public class UserServiceApp {

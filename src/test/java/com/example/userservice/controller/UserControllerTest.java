@@ -413,4 +413,17 @@ public class UserControllerTest {
                 .andExpect(content().string(message));
 
     }
+
+    @DisplayName("Проверка при неожиданном исключении")
+    @Test
+    public void testShouldReturn500UnknownException() throws Exception {
+        String message = "Произошла непредвиденная ошибка!";
+        String message2 = "Сообщение исключения с кишками и прочей секретной инфой";
+
+        doThrow(new RuntimeException(message2)).when(userService).deleteUser(any(RequestUserDTO.class));
+
+        mockMvc.perform(delete("/api/users/1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string(message));
+    }
 }

@@ -1,4 +1,12 @@
 # UserServiceApp
+# Version 6.0
+## Главные изменения:
+- Сообщения методов и регулярки вынесены в константы(кроме UI)
+- Исправлено нарушение SRP - валидация вынесена из UserServiceImpl
+- Тесты исправлены соответственно
+- Обработка исключений в ControllerAdvice
+- UserServiceAPI и UserNotioficationAPI задокументированы с помощью Swagger
+- Поддержка HATEOAS для UserServiceAPI
 # Version 5.0
 ## Главные изменения:
 - Отправка сообщений через Kafka для методов create() и delete()

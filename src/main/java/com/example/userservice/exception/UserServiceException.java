@@ -6,7 +6,7 @@ import com.example.userservice.service.UserServiceImpl;
 /**
  * Unchecked-исключение
  * Используется {@link UserServiceImpl}
- * Говорит наружу о нарушении бизнес-правил (уникальность email или phone)
+ * Говорит наружу о сбое работы Kafka
  *
  * @author vmarakushin
  * @version 1.0
